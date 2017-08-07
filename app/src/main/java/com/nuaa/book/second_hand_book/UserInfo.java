@@ -17,6 +17,8 @@ public class UserInfo extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_user_info,container,false);
+
+
         return view;
     }
 }
