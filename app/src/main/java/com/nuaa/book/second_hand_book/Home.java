@@ -1,12 +1,18 @@
 package com.nuaa.book.second_hand_book;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class Home extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -20,13 +26,33 @@ public class Home extends Fragment {
 //
 //    private OnFragmentInteractionListener mListener;
 
+    private SearchView mSearchView;
     public Home() {
         // Required empty public constructor
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_main,container,false);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,container,false);
+        mSearchView = (SearchView) view.findViewById(R.id.searchView);
+        mSearchView.setQueryHint("请输入书名/作者/ISBN");
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // 当点击搜索按钮时触发该方法
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getActivity(),query,Toast.LENGTH_SHORT).show();
+                mSearchView.clearFocus();
+                return false;
+            }
+            // 当搜索内容改变时触发该方法
+            // @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return view;
     }
+}
 
 //    /**
 //     * Use this factory method to create a new instance of
@@ -100,4 +126,3 @@ public class Home extends Fragment {
 //        // TODO: Update argument type and name
 //        void onFragmentInteraction(Uri uri);
 //    }
-}
