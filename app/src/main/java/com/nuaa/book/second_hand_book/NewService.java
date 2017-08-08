@@ -15,7 +15,7 @@ import java.security.MessageDigest;
  */
 
 public class NewService {
-    private static String rooturl = "http://192.168.0.4/test/";
+    private static String rooturl = "http://192.168.0.4/book-api/";
     public static String getMD5(String message) {
         String md5 = "";
         try {
