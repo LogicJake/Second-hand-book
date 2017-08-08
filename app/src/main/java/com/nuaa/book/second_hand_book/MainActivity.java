@@ -1,7 +1,10 @@
 package com.nuaa.book.second_hand_book;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +12,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private TextView mTextMessage;
     private Home home;
     private AddBook addBook;
     private UserInfo userInfo;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -24,11 +27,17 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     initHome();
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_add:
                     initAddBook();
                     return true;
-                case R.id.navigation_notifications:
-                    initUserInfo();
+                case R.id.navigation_info:
+                    Boolean isLogin = preferences.getBoolean("isLogin",false);
+                    if(isLogin == true)
+                        initUserInfo();
+                    else{
+                        Intent intent = new Intent(MainActivity.this, Login.class);
+                        startActivity(intent);
+                    }
                     return true;
             }
             return false;
@@ -40,10 +49,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        editor = preferences.edit();
         initHome();
+        checkLogin();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+    public void checkLogin(){
+        String name = preferences.getString("userName",null);
+        String pass = preferences.getString("userPassword",null);
+        if(name != null&&pass != null)          //登陆了
+        {
+            editor.putBoolean("isLogin",true);
+            editor.commit();
+            //自动登陆获取信息
+        }
+        else
+        {
+            editor.putBoolean("isLogin",false);
+            editor.commit();
+        }
     }
 
     private void initHome() {
