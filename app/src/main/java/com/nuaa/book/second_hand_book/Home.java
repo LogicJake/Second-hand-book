@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -21,12 +22,14 @@ public class Home extends Fragment {
 //    private OnFragmentInteractionListener mListener;
 
     private SearchView mSearchView;
+    private LinearLayout allBook;
     public Home() {
         // Required empty public constructor
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,container,false);
         mSearchView = (SearchView) view.findViewById(R.id.searchView);
+        allBook = (LinearLayout) view.findViewById(R.id.all);
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法
@@ -40,6 +43,12 @@ public class Home extends Fragment {
             // @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+        allBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"所有分类",Toast.LENGTH_SHORT).show();
             }
         });
         return view;

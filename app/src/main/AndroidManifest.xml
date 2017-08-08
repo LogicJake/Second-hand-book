@@ -13,7 +13,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            >
+            android:windowSoftInputMode="adjustPan">            //去除就可以实现输入法出现时底端上移
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
