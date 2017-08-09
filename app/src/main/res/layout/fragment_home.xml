@@ -282,7 +282,7 @@
                     android:background="@color/Gainsboro"/>
                 <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="800dp"
+                    android:layout_height="850dp"
                     android:id="@+id/MyListView">
 
                 </ListView>

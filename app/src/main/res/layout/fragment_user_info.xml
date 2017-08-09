@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/LightGrey"
     tools:context="com.nuaa.book.second_hand_book.UserInfo">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
@@ -66,14 +67,118 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/sell"/>
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="出售"
+                        android:textSize="15dp"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="15dp"
+                        android:text="(0)"
+                        android:gravity="center"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:text="＞"
+                            android:textSize="20dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.3dp"
+                    android:background="@color/Gainsboro"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="#ffffff"
                     android:layout_height="50dp">
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/buy"/>
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="收藏"
+                        android:textSize="15dp"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="(0)"
+                        android:textSize="15dp"
+                        android:gravity="center"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:text="＞"
+                            android:textSize="20dp"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="10dp"
                     android:background="@color/LightGrey"/>
-
+                <LinearLayout
+                    android:id="@+id/setting"
+                    android:layout_width="match_parent"
+                    android:background="#ffffff"
+                    android:clickable="true"
+                    android:layout_height="50dp">
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/setting"/>
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="设置"
+                        android:textSize="15dp"
+                        android:gravity="center"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:text="＞"
+                            android:textSize="20dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </TableLayout>
+
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
