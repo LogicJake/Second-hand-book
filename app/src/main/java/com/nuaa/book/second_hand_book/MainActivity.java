@@ -11,6 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -70,6 +77,22 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("isLogin",false);
             editor.commit();
         }
+
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration
+                .Builder(this)
+                .threadPoolSize(3)//线程池内加载的数量
+                .threadPriority(Thread.NORM_PRIORITY -2)
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new UsingFreqLimitedMemoryCache(2* 1024 * 1024)) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
+                .memoryCacheSize(2 * 1024 * 1024)
+                .discCacheSize(50 * 1024 * 1024)
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .discCacheFileCount(100) //缓存的文件数量
+                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                .imageDownloader(new BaseImageDownloader(this,10 * 1000, 10 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
+                .writeDebugLogs()
+                .build();//开始构建
+        ImageLoader.getInstance().init(configuration);
     }
 
     private void initHome() {

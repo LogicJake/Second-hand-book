@@ -1,35 +1,69 @@
 package com.nuaa.book.second_hand_book;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Home extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initializoation parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-//
-//    private OnFragmentInteractionListener mListener;
-
+    private static String url = NewService.rooturl +"pic/1.png";
     private SearchView mSearchView;
     private LinearLayout allBook;
+    private ListView mlistview;
+    private DisplayImageOptions options;
+    private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
+    private ImageLoader imageLoader;
     public Home() {
-        // Required empty public constructor
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,container,false);
         mSearchView = (SearchView) view.findViewById(R.id.searchView);
         allBook = (LinearLayout) view.findViewById(R.id.all);
+        mlistview = (ListView) view.findViewById(R.id.MyListView);
+        imageLoader = ImageLoader.getInstance();
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)                               //启用内存缓存
+                .cacheOnDisk(true)                                 //启用外存缓存
+                .build();
+        getData();              //从网络中获取数据
+        SimpleAdapter mSchedule = new SimpleAdapter(view.getContext(),
+                mListData,//数据来源
+                R.layout.item_list,//ListItem的XML实现
+                new String[] {"url", "bookname","oldprice"},
+                new int[] {R.id.book_pic,R.id.book_name,R.id.old_price});
+        mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object data,String textRepresentation) {
+                if (view instanceof ImageView) {
+                    ImageView iv = (ImageView) view;
+                    imageLoader.displayImage((String)data, iv, options);
+                    return true;
+                }
+                else if (view.getId() == R.id.old_price)
+                {
+                    TextView tv = (TextView) view;
+                    tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+                return false;
+            }
+        });
+        //添加并且显示
+        mlistview.setAdapter(mSchedule);
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法
@@ -52,6 +86,16 @@ public class Home extends Fragment {
             }
         });
         return view;
+    }
+
+    public void getData(){
+        for (int i = 0; i < 5; i++) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("url", url);
+            map.put("bookname","面向对象编程");
+            map.put("oldprice","￥ 30.00");
+            mListData.add(map);
+        }
     }
 }
 

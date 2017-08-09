@@ -10,9 +10,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:focusable="false"
                 android:layout_height="50dp"
                 android:background="#00C7B4">
                 <SearchView
@@ -236,6 +238,50 @@
                 android:layout_width="fill_parent"
                 android:layout_height="10dp"
                 android:background="@color/LightGrey"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:background="#00C7B4">
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:text="最新上架"
+                    android:textColor="#808080"
+                    android:textSize="15dp"
+                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_gravity="center">
+                    <TextView
+                        android:id="@+id/more"
+                        android:clickable="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="15dp"
+                        android:text="更多>"
+                        android:textSize="13dp"
+                        android:textColor="#00C7B4"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/Gainsboro"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="800dp"
+                android:id="@+id/MyListView">
+
+            </ListView>
         </LinearLayout>
     </ScrollView>
 
