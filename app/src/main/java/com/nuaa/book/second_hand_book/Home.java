@@ -2,8 +2,11 @@ package com.nuaa.book.second_hand_book;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,7 @@ public class Home extends Fragment {
     private DisplayImageOptions options;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private ImageLoader imageLoader;
+    private SwipeRefreshLayout mswipeRefreshLayout;
     public Home() {
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +40,7 @@ public class Home extends Fragment {
         allBook = (LinearLayout) view.findViewById(R.id.all);
         mlistview = (ListView) view.findViewById(R.id.MyListView);
         imageLoader = ImageLoader.getInstance();
+        mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)                               //启用内存缓存
                 .cacheOnDisk(true)                                 //启用外存缓存
@@ -83,6 +88,18 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"所有分类",Toast.LENGTH_SHORT).show();
+            }
+        });
+        mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        mswipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
             }
         });
         return view;
