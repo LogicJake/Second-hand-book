@@ -44,13 +44,7 @@ public class NewService {
         }
         return hexStr.toString().toUpperCase();
     }
-    /**
-     * 登录验证
-     *
-     * @param user_name   姓名
-     * @param user_passwd 密码
-     * @return
-     */
+
     public static JSONObject login(String user_name, String user_passwd) {          //登陆请求
         JSONObject jsonObject = null;
         try {
@@ -97,6 +91,7 @@ public class NewService {
         }
         return jsonObject;
     }
+
     public static int logout(String token){
         int result = 0;
         System.out.println(token);
@@ -134,4 +129,53 @@ public class NewService {
         }
         return result;
     }
+
+    public static JSONObject signup(String user_name, String user_password) {
+        JSONObject jsonObject = null;
+        try {
+            user_password = getMD5(user_password);
+            System.out.println(user_password);
+            String path = rooturl+"index.php?_action=postSignup";
+            URL url = new URL(path);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            // 设置请求的方式
+            urlConnection.setRequestMethod("POST");
+            // 设置请求的超时时间
+            urlConnection.setReadTimeout(5000);
+            urlConnection.setConnectTimeout(5000);
+            String data = "&user_name=" + URLEncoder.encode(user_name, "UTF-8") + "&user_passwd=" + URLEncoder.encode(user_password, "UTF-8");
+            urlConnection.setRequestProperty("Content-Length", String.valueOf(data.getBytes().length));
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            urlConnection.setDoOutput(true); // 发送POST请求必须设置允许输出
+            urlConnection.setDoInput(true); // 发送POST请求必须设置允许输入
+            OutputStream os = urlConnection.getOutputStream();
+            os.write(data.getBytes());
+            os.flush();
+            if (urlConnection.getResponseCode() == 200) {
+                // 获取响应的输入流对象
+                InputStream is = urlConnection.getInputStream();
+                // 创建字节输出流对象
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // 定义读取的长度
+                int len = 0;
+                // 定义缓冲区
+                byte buffer[] = new byte[1024];
+                // 按照缓冲区的大小，循环读取
+                while ((len = is.read(buffer)) != -1) {
+                    // 根据读取的长度写入到os对象中
+                    baos.write(buffer, 0, len);
+                }
+                is.close();
+                baos.close();
+                System.out.println(baos.toString());
+                jsonObject = new JSONObject(baos.toString()).getJSONObject("data").getJSONObject("result");
+            }
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }

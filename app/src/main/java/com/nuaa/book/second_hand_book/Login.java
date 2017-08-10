@@ -7,10 +7,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.utils.L;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +81,9 @@ public class Login extends AppCompatActivity {
     private Button bt_login;
     private EditText editName, editPassword;
     private SharedPreferences preferences;
+    private TextView signup;
+    private ImageView eye;
+    private Boolean eyeOpen = false;
     private SweetAlertDialog pDialog;
     private SharedPreferences.Editor editor;
     @Override
@@ -87,6 +95,32 @@ public class Login extends AppCompatActivity {
         bt_login = (Button)findViewById(R.id.login);
         editName = (EditText)findViewById(R.id.editText1);
         editPassword = (EditText)findViewById(R.id.editText2);
+        eye = (ImageView)findViewById(R.id.eye);
+        signup = (TextView)findViewById(R.id.sign_up);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, SignUp.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( eyeOpen ){
+                    //密码 TYPE_CLASS_TEXT 和 TYPE_TEXT_VARIATION_PASSWORD 必须一起使用
+                    editPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    eye.setImageResource( R.drawable.close_eye );
+                    eyeOpen = false ;
+                }else {
+                    //明文
+                    editPassword.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    eye.setImageResource( R.drawable.open_eye );
+                    eyeOpen = true ;
+                }
+            }
+        });
         bt_login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pDialog = new SweetAlertDialog(Login.this, SweetAlertDialog.PROGRESS_TYPE);

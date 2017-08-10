@@ -53,4 +53,16 @@
     <string name="sign">个性签名</string>
     <string name="hobby">兴趣</string>
     <string name="exit">退出登录</string>
+    <!-- Strings related to sign_up -->
+    <string name="title_activity_signUp">登陆</string>
+    <string name="sign_up_success">注册成功</string>
+    <string name="name_has_exist">已存在该用户名</string>
+    <string name="pushing_info">提交信息中</string>
+    <string name="pass_no_same">两次密码不一致</string>
+    <string name="pass_length_short">密码长度至少为8</string>
+    <string name="pass_format_error">密码必须且只能由数字和字母组成</string>
+    <string name="ERROR">ERROR</string>
+    <string name="OK">OK</string>
+    <string name="enter_user_name">请输入您想注册的用户名</string>
+    <string name="enter_pass_again">请重复密码</string>
 </resources>

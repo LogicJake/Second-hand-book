@@ -33,8 +33,14 @@
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SignUp"
+            android:theme="@style/AppThemeNoBar"
+            android:label="@string/title_activity_signUp">
         </activity>
     </application>
 
