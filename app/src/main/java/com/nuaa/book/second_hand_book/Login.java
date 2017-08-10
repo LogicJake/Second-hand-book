@@ -36,7 +36,6 @@ public class Login extends AppCompatActivity {
                             editor.putString("userName", name);
                             editor.putString("userPassword", password);
                             editor.putInt("id", id);
-                            editor.putBoolean("isLogin",true);
                             editor.commit();
                             finish();
                         }
@@ -54,26 +53,17 @@ public class Login extends AppCompatActivity {
                             editor.putString("userPassword", password);
                             editor.putInt("id", id);
                             editor.putString("token",token);
-                            editor.putBoolean("isLogin",true);
                             editor.commit();
                             finish();
                         }
                         if (status == 0) {
-                            editor.remove("userName");
-                            editor.remove("userPassword");
-                            editor.remove("id");
-                            editor.remove("token");
-                            editor.putBoolean("isLogin",false);
+                            editor.clear();
                             editor.commit();
                             pDialog.cancel();
                             Toast.makeText(Login.this, R.string.password_error, Toast.LENGTH_SHORT).show();
                         }
                         if (status == 2) {
-                            editor.remove("userName");
-                            editor.remove("userPassword");
-                            editor.remove("id");;
-                            editor.remove("token");
-                            editor.putBoolean("isLogin",false);
+                            editor.clear();
                             editor.commit();
                             pDialog.cancel();
                             Toast.makeText(Login.this, R.string.non_existent_name, Toast.LENGTH_SHORT).show();

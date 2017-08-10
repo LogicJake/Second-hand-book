@@ -19,19 +19,23 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan">
             //去除就可以实现输入法出现时底端上移
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"
             android:theme="@style/AppThemeNoBar" />
-        <activity android:name=".Setting"
+        <activity
+            android:name=".Setting"
             android:label="@string/title_activity_setting"
-            android:theme="@style/AppThemeNoBar" ></activity>
+            android:theme="@style/AppThemeNoBar" />
+        <activity
+            android:name=".LaunchScreen"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

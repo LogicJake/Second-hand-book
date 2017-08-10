@@ -51,7 +51,7 @@ public class Home extends Fragment {
                 R.layout.item_list,//ListItem的XML实现
                 new String[] {"url", "bookname","oldprice"},
                 new int[] {R.id.book_pic,R.id.book_name,R.id.old_price});
-        mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
+                mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object data,String textRepresentation) {
                 if (view instanceof ImageView) {

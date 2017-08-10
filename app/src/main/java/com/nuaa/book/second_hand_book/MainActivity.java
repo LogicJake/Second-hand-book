@@ -41,13 +41,7 @@ public class MainActivity extends AppCompatActivity {
                     initAddBook();
                     return true;
                 case R.id.navigation_info:
-                    Boolean isLogin = preferences.getBoolean("isLogin",false);
-                    if(isLogin == true)
-                        initUserInfo();
-                    else{
-                        Intent intent = new Intent(MainActivity.this, Login.class);
-                        startActivity(intent);
-                    }
+                    initUserInfo();
                     return true;
             }
             return false;
@@ -62,40 +56,8 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
         initHome();
-        checkLogin();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-    public void checkLogin(){
-        String name = preferences.getString("userName",null);
-        String pass = preferences.getString("userPassword",null);
-        if(name != null&&pass != null)          //登陆了
-        {
-            editor.putBoolean("isLogin",true);
-            editor.commit();
-            //自动登陆获取信息
-        }
-        else
-        {
-            editor.putBoolean("isLogin",false);
-            editor.commit();
-        }
-
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration
-                .Builder(this)
-                .threadPoolSize(3)//线程池内加载的数量
-                .threadPriority(Thread.NORM_PRIORITY -2)
-                .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new UsingFreqLimitedMemoryCache(2* 1024 * 1024)) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
-                .memoryCacheSize(2 * 1024 * 1024)
-                .discCacheSize(50 * 1024 * 1024)
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .discCacheFileCount(100) //缓存的文件数量
-                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                .imageDownloader(new BaseImageDownloader(this,10 * 1000, 10 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
-                .writeDebugLogs()
-                .build();//开始构建
-        ImageLoader.getInstance().init(configuration);
     }
 
     private void initHome() {
