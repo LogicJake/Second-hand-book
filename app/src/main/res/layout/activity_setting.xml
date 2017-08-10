@@ -21,18 +21,18 @@
                 android:text="头像"
                 android:textSize="18dp"/>
             <LinearLayout
-            android:id="@+id/pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:gravity="right">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:src="@android:drawable/sym_def_app_icon" />
-        </LinearLayout>
+                android:id="@+id/pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:gravity="right">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@android:drawable/sym_def_app_icon" />
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_width="fill_parent"
@@ -68,12 +68,14 @@
             android:clickable="true"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp">
+
             <TextView
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="18dp"
-                android:text="@string/uid" />
+                android:text="@string/id"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/UID"
@@ -163,27 +165,6 @@
             android:layout_width="fill_parent"
             android:layout_height="50px"
             android:background="@color/LightGrey"  />
-        <TableRow
-            android:clickable="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textSize="18dp"
-                android:text="@string/score" />
-
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:textSize="18dp"
-                android:gravity="right"
-                />
-
-        </TableRow>
         <View
             android:layout_width="fill_parent"
             android:layout_height="1px"
@@ -220,7 +201,10 @@
                 android:text=">"
                 android:textSize="20dp" />
         </TableRow>
-
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/LightGrey"  />
         <TableRow
             android:clickable="true"
             android:layout_marginTop="18dp"
@@ -259,35 +243,6 @@
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:background="@color/LightGrey"  />
-        <TableRow
-            android:clickable="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:id = "@+id/trhobby">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textSize="18dp"
-                android:text="@string/hobby" />
-
-            <TextView
-                android:id="@+id/hobby"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:textSize="18dp"
-                android:gravity="right"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:textSize="20dp"
-                android:text=">"
-                android:gravity="right" />
-        </TableRow>
         <View
             android:layout_width="fill_parent"
             android:layout_height="1px"
@@ -304,3 +259,4 @@
             android:layout_marginRight="5dp"/>
     </TableLayout>
 </ScrollView>
+

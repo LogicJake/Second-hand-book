@@ -178,4 +178,65 @@ public class NewService {
         return jsonObject;
     }
 
+    public static JSONObject getinfo(String token,String type,String key) {
+        JSONObject result = null;
+        try {
+            String path = rooturl+"index.php?_action=getInfo&token="+token;
+            URL url = new URL(path);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            // 设置请求的方式
+            urlConnection.setRequestMethod("POST");
+            // 设置请求的超时时间
+            urlConnection.setReadTimeout(5000);
+            urlConnection.setConnectTimeout(5000);
+            System.out.println(token);
+            String data = "&type="+URLEncoder.encode(type, "UTF-8");
+            if (type.equals("update_sex")){
+                int sex = (key.equals("男"))?0:1;
+                data += "&sex="+sex;
+            }
+            if (type.equals("update_qq_num")){
+                data += "&qq_num="+URLEncoder.encode(key, "UTF-8");
+            }
+            if (type.equals("update_phone_num")){
+                data += "&phone_num="+URLEncoder.encode(key, "UTF-8");;
+            }
+            if (type.equals("update_user_sign")){
+                data += "&user_sign="+URLEncoder.encode(key, "UTF-8");
+            }
+            System.out.println(data);
+            urlConnection.setRequestProperty("Content-Length", String.valueOf(data.getBytes().length));
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            urlConnection.setDoOutput(true); // 发送POST请求必须设置允许输出
+            urlConnection.setDoInput(true); // 发送POST请求必须设置允许输入
+
+            OutputStream os = urlConnection.getOutputStream();
+            os.write(data.getBytes());
+            os.flush();
+            if (urlConnection.getResponseCode() == 200) {
+                // 获取响应的输入流对象
+                InputStream is = urlConnection.getInputStream();
+                // 创建字节输出流对象
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // 定义读取的长度
+                int len = 0;
+                // 定义缓冲区
+                byte buffer[] = new byte[1024];
+                // 按照缓冲区的大小，循环读取
+                while ((len = is.read(buffer)) != -1) {
+                    // 根据读取的长度写入到os对象中
+                    baos.write(buffer, 0, len);
+                }
+                is.close();
+                baos.close();
+                System.out.println(baos.toString());
+                result = new JSONObject(baos.toString()).getJSONObject("data").getJSONObject("result");
+                System.out.println(result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

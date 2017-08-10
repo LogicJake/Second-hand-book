@@ -45,7 +45,7 @@
     <string name="modfy_phone">修改手机号码</string>
     <string name="getting_data">获取信息中</string>
     <string name="user_name">用户名</string>
-    <string name="uid">UID</string>
+    <string name="id">学号</string>
     <string name="phone">手机号</string>
     <string name="qq">QQ</string>
     <string name="sex">性别</string>

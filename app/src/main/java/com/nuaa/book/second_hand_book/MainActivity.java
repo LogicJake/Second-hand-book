@@ -65,11 +65,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(home == null){
             home = new Home();
-            transaction.add(R.id.content, home);
+            transaction.add(R.id.content,home);
         }
-        //隐藏所有fragment
         hideFragment(transaction);
-        //显示需要显示的fragment
         transaction.show(home);
         transaction.commit();
     }
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(userInfo == null){
             userInfo = new UserInfo();
-            transaction.add(R.id.content, userInfo);
+            transaction.add(R.id.content,userInfo);
         }
         hideFragment(transaction);
         transaction.show(userInfo);
