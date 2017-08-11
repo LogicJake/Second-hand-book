@@ -45,7 +45,6 @@
             android:layout_marginBottom="18dp">
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -70,7 +69,6 @@
             android:layout_marginBottom="18dp">
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -78,7 +76,7 @@
                 android:textSize="18dp" />
 
             <TextView
-                android:id="@+id/UID"
+                android:id="@+id/stu_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -107,7 +105,7 @@
                 android:textSize="18dp" />
 
             <TextView
-                android:id="@+id/tele"
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -212,7 +210,6 @@
             android:id = "@+id/trsigh">
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

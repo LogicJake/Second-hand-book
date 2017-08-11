@@ -192,7 +192,7 @@ public class NewService {
             System.out.println(token);
             String data = "&type="+URLEncoder.encode(type, "UTF-8");
             if (type.equals("update_sex")){
-                int sex = (key.equals("男"))?0:1;
+                int sex = (key.equals("男"))?1:0;
                 data += "&sex="+sex;
             }
             if (type.equals("update_qq_num")){

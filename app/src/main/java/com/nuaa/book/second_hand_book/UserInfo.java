@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class UserInfo extends Fragment {
                         sell_num.setText("("+preferences.getString("sell_num","0")+")");
                         like_num.setText("("+preferences.getString("like_num","0")+")");
                     }
+                    mswipeRefreshLayout.setRefreshing(false);
                     break;
             }
         }
@@ -83,13 +85,7 @@ public class UserInfo extends Fragment {
         mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                        mswipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 2000);
+                getInfo();
             }
         });
         return view;
