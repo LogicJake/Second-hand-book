@@ -1,5 +1,6 @@
 package com.nuaa.book.second_hand_book;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -55,9 +56,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
-        initHome();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        FragmentManager fragmentManager = getFragmentManager();
+        if (savedInstanceState != null) { // “内存重启”时调用
+            initHome();
+        }else{      //正常启动时调用
+            initHome();
+        }
     }
 
     private void initHome() {
@@ -65,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(home == null){
             home = new Home();
-            transaction.add(R.id.content,home);
+            transaction.add(R.id.content,home,"home");
         }
         hideFragment(transaction);
         transaction.show(home);
@@ -76,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(addBook == null){
             addBook = new AddBook();
-            transaction.add(R.id.content, addBook);
+            transaction.add(R.id.content, addBook,"addbook");
         }
         hideFragment(transaction);
         transaction.show(addBook);
@@ -87,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(userInfo == null){
             userInfo = new UserInfo();
-            transaction.add(R.id.content,userInfo);
+            transaction.add(R.id.content,userInfo,"userinfo");
         }
         hideFragment(transaction);
         transaction.show(userInfo);
         transaction.commit();
     }
 
-    private void hideFragment(FragmentTransaction transaction){
+    public void hideFragment(FragmentTransaction transaction){
         if(home != null){
             transaction.hide(home);
         }

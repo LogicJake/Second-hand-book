@@ -27,7 +27,7 @@
                 android:layout_marginRight="20dp"
                 android:gravity="right">
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/avatar"
+                    android:id="@+id/avator"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"

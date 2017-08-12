@@ -17,15 +17,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/c7000" />
-
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/sex"
                 android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,6 +26,7 @@
                 android:src="@drawable/female" />
 
             <TextView
+                android:id="@+id/seller_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"
@@ -68,6 +62,7 @@
             android:weightSum="1">
 
             <ImageView
+                android:layout_marginLeft="10dp"
                 android:id="@+id/book_pic"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
@@ -149,6 +144,7 @@
                         android:src="@drawable/quality" />
 
                     <TextView
+                        android:id="@+id/quality"
                         android:layout_width="40dp"
                         android:layout_height="18dp"
                         android:layout_gravity="bottom"

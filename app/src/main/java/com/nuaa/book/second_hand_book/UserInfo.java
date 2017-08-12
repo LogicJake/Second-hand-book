@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -26,10 +28,10 @@ import static android.content.Context.MODE_PRIVATE;
 public class UserInfo extends Fragment {
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+            JSONObject res = (JSONObject) msg.obj;
             switch(msg.what) {
                 case 0:
                     super.handleMessage(msg);
-                    JSONObject res = (JSONObject) msg.obj;
                     if (res == null) {
                         Toast.makeText(getActivity(), R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
@@ -44,6 +46,7 @@ public class UserInfo extends Fragment {
                             editor.putString("avator_url",res.getString("avator_url"));
                             editor.putString("sell_num",res.getString("sell_num"));
                             editor.putString("like_num",res.getString("like_num"));
+                            editor.putString("avator_url",res.getString("avator_url"));
                             editor.commit();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -51,8 +54,11 @@ public class UserInfo extends Fragment {
                         user_name.setText(preferences.getString("userName",null));
                         sell_num.setText("("+preferences.getString("sell_num","0")+")");
                         like_num.setText("("+preferences.getString("like_num","0")+")");
+                        if (preferences.getString("sex",null).equals("0"))
+                            sex.setImageResource(R.drawable.female);
+                        else
+                            sex.setImageResource(R.drawable.male);
                     }
-                    mswipeRefreshLayout.setRefreshing(false);
                     break;
             }
         }
@@ -62,6 +68,10 @@ public class UserInfo extends Fragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private SwipeRefreshLayout mswipeRefreshLayout;
+    private Home home;
+    private AddBook addBook;
+    private UserInfo userInfo;
+    private ImageView sex;
     public UserInfo() {
         // Required empty public constructor
     }
@@ -71,6 +81,7 @@ public class UserInfo extends Fragment {
         user_name = (TextView)view.findViewById(R.id.name);
         sell_num = (TextView) view.findViewById(R.id.sell_num);
         like_num = (TextView) view.findViewById(R.id.like_num);
+        sex = (ImageView)view.findViewById(R.id.sex);
         mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
         preferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
@@ -85,7 +96,11 @@ public class UserInfo extends Fragment {
         mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getInfo();
+                Fragment fg = getFragmentManager().findFragmentByTag("userinfo");
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.detach(fg);
+                transaction.attach(fg);
+                transaction.commit();
             }
         });
         return view;

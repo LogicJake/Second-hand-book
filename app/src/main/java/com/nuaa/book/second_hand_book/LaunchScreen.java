@@ -22,6 +22,8 @@ import org.json.JSONObject;
 public class LaunchScreen extends AppCompatActivity {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    public static ImageLoader imageLoader;
+    public static DisplayImageOptions options;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +46,12 @@ public class LaunchScreen extends AppCompatActivity {
                 .imageDownloader(new BaseImageDownloader(this,10 * 1000, 10 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
                 .writeDebugLogs()
                 .build();//开始构建
-        ImageLoader.getInstance().init(configuration);
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(configuration);
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)                               //启用内存缓存
+                .cacheOnDisk(true)                                 //启用外存缓存
+                .build();
     }
     public void checkLogin(){
         String name = preferences.getString("userName",null);

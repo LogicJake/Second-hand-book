@@ -18,8 +18,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
+import static com.nuaa.book.second_hand_book.LaunchScreen.options;
+import static com.nuaa.book.second_hand_book.NewService.pic_root;
 
 public class Setting extends AppCompatActivity {
     private Handler handler = new Handler() {
@@ -131,6 +139,7 @@ public class Setting extends AppCompatActivity {
     private SharedPreferences preferences;
     private TextView name,stu_id,phone,qq,sex,sigh;
     private TableRow trtele,trqq,trsex,trsigh;
+    private CircleImageView avator;
     String single[] = {"男","女"};
     String singleChoice;
     @Override
@@ -148,6 +157,7 @@ public class Setting extends AppCompatActivity {
         trqq = (TableRow)findViewById(R.id.trqq);
         trsex = (TableRow)findViewById(R.id.trsex);
         trsigh = (TableRow)findViewById(R.id.trsigh);
+        avator = (CircleImageView)findViewById(R.id.avator);
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
         initInfo();
@@ -343,5 +353,6 @@ public class Setting extends AppCompatActivity {
             sigh.setText("");
         else
             sigh.setText(preferences.getString("user_sign",null));
+        imageLoader.displayImage(pic_root+preferences.getString("avator_url",null),avator,options);
     }
 }

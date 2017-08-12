@@ -280,6 +280,11 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:background="@color/Gainsboro"/>
+                <ProgressBar
+                    android:id="@+id/pg"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:visibility="visible"/>
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="850dp"
