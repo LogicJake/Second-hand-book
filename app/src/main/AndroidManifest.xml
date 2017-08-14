@@ -39,9 +39,9 @@
         </activity>
         <activity
             android:name=".SignUp"
-            android:theme="@style/AppThemeNoBar"
-            android:label="@string/title_activity_signUp">
-        </activity>
+            android:label="@string/title_activity_signUp"
+            android:theme="@style/AppThemeNoBar"></activity>
+        <activity android:name=".SearchResult"></activity>
     </application>
 
 </manifest>

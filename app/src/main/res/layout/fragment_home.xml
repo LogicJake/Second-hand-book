@@ -5,19 +5,27 @@
     android:layout_height="match_parent">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#00C7B4">
-        <SearchView
-            android:id="@+id/searchView"
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src = "@drawable/search"/>
+        <EditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:queryHint="请输入书名/作者/ISBN"
-            android:iconifiedByDefault="false"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:textSize="19dp"
             android:focusable="false"
-            android:layout_height="40dp">
-        </SearchView>
+            android:hint="请输入书名/作者/ISBN"/>
+
     </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh"

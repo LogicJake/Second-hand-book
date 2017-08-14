@@ -1,5 +1,6 @@
 package com.nuaa.book.second_hand_book;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -107,9 +109,9 @@ public class Home extends Fragment {
         }
     };
     private static String url = pic_root +"1.png";
-    private SearchView mSearchView;
     private LinearLayout allBook;
     private ListView mlistview;
+    private EditText search;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SwipeRefreshLayout mswipeRefreshLayout;
     private SharedPreferences preferences;
@@ -120,10 +122,10 @@ public class Home extends Fragment {
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,container,false);
-        mSearchView = (SearchView) view.findViewById(R.id.searchView);
         allBook = (LinearLayout) view.findViewById(R.id.all);
         mlistview = (ListView) view.findViewById(R.id.MyListView);
         mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
+        search = (EditText) view.findViewById(R.id.search);
         pg = (ProgressBar)view.findViewById(R.id.pg);
         preferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
@@ -138,19 +140,11 @@ public class Home extends Fragment {
                 transaction.commit();
             }
         });
-        mSearchView.setSubmitButtonEnabled(true);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 当点击搜索按钮时触发该方法
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getActivity(),query,Toast.LENGTH_SHORT).show();
-                mSearchView.clearFocus();
-                return false;
-            }
-            // 当搜索内容改变时触发该方法
-            // @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchResult.class);
+                startActivity(intent);
             }
         });
         allBook.setOnClickListener(new View.OnClickListener() {

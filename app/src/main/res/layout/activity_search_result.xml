@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.nuaa.book.second_hand_book.SearchResult">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00C7B4">
+        <TextView
+            android:id="@+id/backup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="＜"
+            android:textSize="40dp"
+            android:textColor="#FFFFFF"/>
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="30dp"
+            android:queryHint="请输入书名/作者/ISBN"
+            android:focusable="false"
+            android:layout_height="40dp"
+            android:iconifiedByDefault="false">
+        </SearchView>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="850dp"
+            android:id="@+id/MyListView">
+        </ListView>
+    </ScrollView>
+</LinearLayout>
