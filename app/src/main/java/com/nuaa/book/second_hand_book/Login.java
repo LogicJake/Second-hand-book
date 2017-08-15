@@ -42,6 +42,8 @@ public class Login extends AppCompatActivity {
                             editor.putString("userPassword", password);
                             editor.putInt("id", id);
                             editor.commit();
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                     } else {
@@ -59,6 +61,8 @@ public class Login extends AppCompatActivity {
                             editor.putInt("id", id);
                             editor.putString("token",token);
                             editor.commit();
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                         if (status == 0) {
