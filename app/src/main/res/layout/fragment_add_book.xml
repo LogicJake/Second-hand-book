@@ -54,6 +54,7 @@
         <EditText
             android:layout_width="0dp"
             android:layout_weight="6"
+            android:id="@+id/ISBN"
             android:hint="请直接输入或点击右侧图标扫描"
             android:gravity="center"
             android:textSize="14dp"
@@ -69,88 +70,93 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20">
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_weight="270">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="244"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="244">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/addcover"
                 android:layout_gravity="center"
-                />
+                android:src="@drawable/addcover" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="300"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="67.5"
-                >
+                android:layout_weight="67.5">
+
                 <EditText
-                    android:id="@+id/bookname"
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="书名"
-                    android:textSize="14dp"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true"
-                    android:selectAllOnFocus="true"/>
+                    android:textSize="14dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="67.5"
-                >
+                android:layout_weight="67.5">
+
                 <EditText
                     android:id="@+id/author"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="作者"
-                    android:textSize="14dp"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true"
-                    android:selectAllOnFocus="true"/>
+                    android:textSize="14dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="67.5"
-                >
+                android:layout_weight="67.5">
+
                 <EditText
-                    android:id="@+id/publicby"
+                    android:id="@+id/publisher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="出版社"
-                    android:textSize="14dp"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true"
-                    android:selectAllOnFocus="true"/>
+                    android:textSize="14dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="67.5"
-                >
+                android:layout_weight="67.5">
+
                 <EditText
-                    android:id="@+id/originprice"
+                    android:id="@+id/old_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="原价"
-                    android:textSize="14dp"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true"
-                    android:selectAllOnFocus="true"/>
+                    android:textSize="14dp" />
             </LinearLayout>
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20">
     </LinearLayout>
 
     <LinearLayout
@@ -174,7 +180,7 @@
             android:singleLine="true"
             android:selectAllOnFocus="true"/>
         <EditText
-            android:id="@+id/sellprice"
+            android:id="@+id/now_price"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
@@ -190,7 +196,7 @@
             android:singleLine="true"
             android:selectAllOnFocus="true"/>
         <EditText
-            android:id="@+id/sell_num"
+            android:id="@+id/num"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
@@ -228,7 +234,7 @@
             android:singleLine="true"
             android:selectAllOnFocus="true"/>
         <EditText
-            android:id="@+id/newold"
+            android:id="@+id/quality"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
@@ -250,7 +256,7 @@
             android:singleLine="true"
             android:selectAllOnFocus="true"/>
         <EditText
-            android:id="@+id/otherdescription"
+            android:id="@+id/remark"
             android:layout_width="0dp"
             android:layout_weight="12"
             android:layout_height="wrap_content"
@@ -268,27 +274,28 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="16"
-            ></LinearLayout>
+            />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="480"
             >
+
             <Button
+                android:id="@+id/publish"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/MainColor"
+                android:gravity="center"
                 android:text="发布"
                 android:textColor="#FFFFFF"
-                android:gravity="center"
-                android:textSize="20dp"
-                />
+                android:textSize="20dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="16"
-            ></LinearLayout>
+            />
 
     </LinearLayout>
 
