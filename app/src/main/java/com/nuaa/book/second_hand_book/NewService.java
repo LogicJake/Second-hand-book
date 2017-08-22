@@ -53,8 +53,6 @@ public class NewService {
     public static JSONObject login(String user_name, String user_passwd) {          //登陆请求
         JSONObject jsonObject = null;
         try {
-            user_passwd = getMD5(user_passwd);
-            System.out.println(user_passwd);
             String path = rooturl+"index.php?_action=postLogin";
             URL url = new URL(path);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
