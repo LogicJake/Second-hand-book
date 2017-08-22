@@ -68,9 +68,6 @@ public class UserInfo extends Fragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private SwipeRefreshLayout mswipeRefreshLayout;
-    private Home home;
-    private AddBook addBook;
-    private UserInfo userInfo;
     private ImageView sex;
     public UserInfo() {
         // Required empty public constructor

@@ -16,6 +16,9 @@ import java.security.MessageDigest;
  */
 
 public class NewService {
+
+    //test locally:http://192.168.253.12//book-api/
+    //test nrtwork：http://test.logicjake.xyz/book-api/
     public static String rooturl = "http://test.logicjake.xyz/book-api/";
     public static String pic_root = "http://test.logicjake.xyz/book-api/pic/";
     public static String getMD5(String message) {
@@ -319,11 +322,12 @@ public class NewService {
         }
         return res;
     }
-    public static JSONObject addbook(String token,String ISBN,String name,String author,String publisher,String old_price,String new_price,String num,String classify,String quality,String remark)
+
+    public static JSONObject addbook(String token,String ISBN,String name,String author,String publisher,String old_price,String now_price,String num,String classify,String quality,String remark)
     {
         JSONObject res = null;
         try {
-            String path = rooturl+"index.php?_action=addbook&token="+token+"&ISBN="+URLEncoder.encode(ISBN, "UTF-8")+"&name="+URLEncoder.encode(name, "UTF-8")+"&author="+URLEncoder.encode(author, "UTF-8")+"&publisher="+URLEncoder.encode(publisher, "UTF-8")+"&old_price="+URLEncoder.encode(old_price, "UTF-8")+"&new_price="+URLEncoder.encode(new_price, "UTF-8")+"&num="+URLEncoder.encode(num, "UTF-8")+"&classify="+URLEncoder.encode(classify, "UTF-8")+"&quality="+URLEncoder.encode(quality, "UTF-8")+"&remark="+URLEncoder.encode(remark, "UTF-8");
+            String path = rooturl+"index.php?_action=addbook&token="+token+"&ISBN="+URLEncoder.encode(ISBN, "UTF-8")+"&name="+URLEncoder.encode(name, "UTF-8")+"&author="+URLEncoder.encode(author, "UTF-8")+"&publisher="+URLEncoder.encode(publisher, "UTF-8")+"&old_price="+URLEncoder.encode(old_price, "UTF-8")+"&now_price="+URLEncoder.encode(now_price, "UTF-8")+"&num="+URLEncoder.encode(num, "UTF-8")+"&classify="+URLEncoder.encode(classify, "UTF-8")+"&quality="+URLEncoder.encode(quality, "UTF-8")+"&remark="+URLEncoder.encode(remark, "UTF-8");
             URL url = new URL(path);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             // 设置请求的方式

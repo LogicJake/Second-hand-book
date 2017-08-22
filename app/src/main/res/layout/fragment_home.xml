@@ -3,30 +3,33 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/MainColor">
+        android:background="@color/MainColor"
+        android:orientation="horizontal">
+
         <ImageView
-            android:layout_marginLeft="15dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
-            android:src = "@drawable/search"/>
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/search" />
+
         <EditText
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
-            android:textSize="19dp"
+            android:layout_marginTop="1dp"
             android:focusable="false"
-            android:hint="请输入书名/作者/ISBN"/>
+            android:hint="请输入书名/作者/ISBN"
+            android:textSize="19dp" />
 
     </LinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"

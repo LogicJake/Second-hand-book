@@ -1,35 +1,42 @@
 package com.nuaa.book.second_hand_book;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.nuaa.book.second_hand_book.NewService.pic_root;
 
-public class AddBook extends Fragment {
+public class AddBook extends AppCompatActivity {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             JSONObject result = (JSONObject) msg.obj;
             if (result == null){
-                //  pDialog.cancel();
-                Toast.makeText(getActivity(), R.string.server_error, Toast.LENGTH_SHORT).show();
+                pDialog.cancel();
+                Toast.makeText(AddBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(getActivity(), "上架成功", Toast.LENGTH_SHORT).show();
+                pDialog.cancel();
+                Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -42,6 +49,7 @@ public class AddBook extends Fragment {
     private EditText old_price;
     private EditText now_price;
     private EditText num;
+    private TextView backup;
     private Spinner classify;
     private Spinner quality;
     private EditText remark;
@@ -62,27 +70,36 @@ public class AddBook extends Fragment {
 
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    public AddBook() {
-        // Required empty public constructor
-    }
+    private SweetAlertDialog pDialog;
+//    public AddBook() {
+//        // Required empty public constructor
+//    }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_book,container,false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_book);
 
-        ISBN = (EditText)view.findViewById(R.id.ISBN);
-        name = (EditText)view.findViewById(R.id.name);
-        author = (EditText)view.findViewById(R.id.author);
-        publisher = (EditText)view.findViewById(R.id.publisher);
-        old_price = (EditText)view.findViewById(R.id.old_price);
-        now_price = (EditText)view.findViewById(R.id.now_price);
-        num = (EditText)view.findViewById(R.id.num);
-        classify = (Spinner)view.findViewById(R.id.classify);
-        quality = (Spinner)view.findViewById(R.id.quality);
-        remark = (EditText)view.findViewById(R.id.remark);
-        publish = (Button)view.findViewById(R.id.publish);
+        ISBN = (EditText)findViewById(R.id.ISBN);
+        name = (EditText)findViewById(R.id.name);
+        author = (EditText)findViewById(R.id.author);
+        publisher = (EditText)findViewById(R.id.publisher);
+        old_price = (EditText)findViewById(R.id.old_price);
+        now_price = (EditText)findViewById(R.id.now_price);
+        num = (EditText)findViewById(R.id.num);
+        classify = (Spinner)findViewById(R.id.classify);
+        quality = (Spinner)findViewById(R.id.quality);
+        remark = (EditText)findViewById(R.id.remark);
+        publish = (Button)findViewById(R.id.publish);
+        backup = (TextView)findViewById(R.id.backup);
         
-        preferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
+        preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
+        backup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +115,10 @@ public class AddBook extends Fragment {
                 text_quality = (String)quality.getSelectedItem();
                 text_remark = remark.getText().toString();
                 token = preferences.getString("token",null);
+                pDialog = new SweetAlertDialog(AddBook.this, SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("正在上传");
+                pDialog.show();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -111,6 +132,5 @@ public class AddBook extends Fragment {
                 thread.start();
             }
         });
-        return view;
     }
 }

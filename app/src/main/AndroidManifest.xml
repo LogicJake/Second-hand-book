@@ -42,6 +42,9 @@
             android:label="@string/title_activity_signUp"
             android:theme="@style/AppThemeNoBar"></activity>
         <activity android:name=".SearchResult"></activity>
+        <activity
+            android:name=".AddBook"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

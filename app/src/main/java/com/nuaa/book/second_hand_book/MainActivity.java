@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
                     initHome();
                     return true;
                 case R.id.navigation_add:
-                    initAddBook();
+                    Intent intent = new Intent(MainActivity.this, AddBook.class);
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_info:
                     initUserInfo();
@@ -78,16 +79,16 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void initAddBook(){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(addBook == null){
-            addBook = new AddBook();
-            transaction.add(R.id.content, addBook,"addbook");
-        }
-        hideFragment(transaction);
-        transaction.show(addBook);
-        transaction.commit();
-    }
+//    private void initAddBook(){
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        if(addBook == null){
+//            addBook = new AddBook();
+//            transaction.add(R.id.content, addBook,"addbook");
+//        }
+//        hideFragment(transaction);
+//        transaction.show(addBook);
+//        transaction.commit();
+//    }
 
     private void initUserInfo(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -104,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
         if(home != null){
             transaction.hide(home);
         }
-        if(addBook != null){
-            transaction.hide(addBook);
-        }
+//        if(addBook != null){
+//            transaction.hide(addBook);
+//        }
         if(userInfo != null){
             transaction.hide(userInfo);
         }
