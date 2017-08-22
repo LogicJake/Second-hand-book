@@ -1,8 +1,302 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.nuaa.book.second_hand_book.AddBook">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="74"
+        android:background="@color/MainColor"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/backup"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="＜"
+            android:textColor="#FFFFFF"
+            android:textSize="40dp" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent" />
+       <TextView
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="2"
+           android:text="出售书籍"
+           android:textColor="#FFFFFF"
+           android:gravity="center"
+           android:textSize="24dp"
+           />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="74">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="ISBN:"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:layout_height="match_parent" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:id="@+id/ISBN"
+            android:hint="请直接输入或点击右侧图标扫描"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/scan"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="270">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="244">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/addcover" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="300"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="67.5">
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="书名"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="67.5">
+
+                <EditText
+                    android:id="@+id/author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="作者"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="67.5">
+
+                <EditText
+                    android:id="@+id/publisher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="出版社"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="67.5">
+
+                <EditText
+                    android:id="@+id/old_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="原价"
+                    android:selectAllOnFocus="true"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="74"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="出售价:"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <EditText
+            android:id="@+id/now_price"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="数量:"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <EditText
+            android:id="@+id/num"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="74">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="分类:"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <EditText
+            android:id="@+id/classify"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="新旧:"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <EditText
+            android:id="@+id/quality"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="74">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="备注:"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+        <EditText
+            android:id="@+id/remark"
+            android:layout_width="0dp"
+            android:layout_weight="12"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:singleLine="true"
+            android:selectAllOnFocus="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="260">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="16"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="480"
+            >
+
+            <Button
+                android:id="@+id/publish"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/MainColor"
+                android:gravity="center"
+                android:text="发布"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="16"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
