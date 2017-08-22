@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -41,8 +42,8 @@ public class AddBook extends Fragment {
     private EditText old_price;
     private EditText now_price;
     private EditText num;
-    private EditText classify;
-    private EditText quality;
+    private Spinner classify;
+    private Spinner quality;
     private EditText remark;
 
     private String text_ISBN;
@@ -75,8 +76,8 @@ public class AddBook extends Fragment {
         old_price = (EditText)view.findViewById(R.id.old_price);
         now_price = (EditText)view.findViewById(R.id.now_price);
         num = (EditText)view.findViewById(R.id.num);
-        classify = (EditText)view.findViewById(R.id.classify);
-        quality = (EditText)view.findViewById(R.id.quality);
+        classify = (Spinner)view.findViewById(R.id.classify);
+        quality = (Spinner)view.findViewById(R.id.quality);
         remark = (EditText)view.findViewById(R.id.remark);
         publish = (Button)view.findViewById(R.id.publish);
         
@@ -93,8 +94,8 @@ public class AddBook extends Fragment {
                 text_old_price = old_price.getText().toString();
                 text_now_price = now_price.getText().toString();
                 text_num = num.getText().toString();
-                text_classify = classify.getText().toString();
-                text_quality = quality.getText().toString();
+                text_classify = (String)classify.getSelectedItem();
+                text_quality = (String)quality.getSelectedItem();
                 text_remark = remark.getText().toString();
                 token = preferences.getString("token",null);
                 Thread thread = new Thread(new Runnable() {
