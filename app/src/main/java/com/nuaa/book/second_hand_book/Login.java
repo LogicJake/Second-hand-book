@@ -29,8 +29,8 @@ public class Login extends AppCompatActivity {
                 case 0:
                     String name = editName.getText().toString().trim();
                     String password = editPassword.getText().toString().trim();
-                    int status = -1;
                     int id = -1;
+                    Boolean res = true;
                     String token = null;
                     super.handleMessage(msg);
                     JSONObject result = (JSONObject) msg.obj;
@@ -48,13 +48,13 @@ public class Login extends AppCompatActivity {
                         }
                     } else {
                         try {
-                            status = result.getInt("status");
                             id = result.getInt("id");
                             token = result.getString("token");
+                            res = result.getBoolean("result");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        if (status == 1) {
+                        if (res) {
                             pDialog.cancel();
                             editor.putString("userName", name);
                             editor.putString("userPassword", password);
@@ -65,17 +65,11 @@ public class Login extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                        if (status == 0) {
+                        else {
                             editor.clear();
                             editor.commit();
                             pDialog.cancel();
                             Toast.makeText(Login.this, R.string.password_error, Toast.LENGTH_SHORT).show();
-                        }
-                        if (status == 2) {
-                            editor.clear();
-                            editor.commit();
-                            pDialog.cancel();
-                            Toast.makeText(Login.this, R.string.non_existent_name, Toast.LENGTH_SHORT).show();
                         }
                     }
                     break;
@@ -85,7 +79,7 @@ public class Login extends AppCompatActivity {
     private Button bt_login;
     private EditText editName, editPassword;
     private SharedPreferences preferences;
-    private TextView signup;
+//    private TextView signup;
     private ImageView eye;
     private Boolean eyeOpen = false;
     private SweetAlertDialog pDialog;
@@ -100,15 +94,15 @@ public class Login extends AppCompatActivity {
         editName = (EditText)findViewById(R.id.editText1);
         editPassword = (EditText)findViewById(R.id.editText2);
         eye = (ImageView)findViewById(R.id.eye);
-        signup = (TextView)findViewById(R.id.sign_up);
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this, SignUp.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        signup = (TextView)findViewById(R.id.sign_up);
+//        signup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Login.this, SignUp.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
         eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -131,6 +131,23 @@ public class Setting extends AppCompatActivity {
                         sigh.setText(key);
                     }
                     break;
+                case 5:
+                    super.handleMessage(msg);
+                    result = (JSONObject) msg.obj;
+                    try {
+                        flag = result.getInt("status");
+                        key = result.getString("key");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (flag == 0)
+                        Toast.makeText(Setting.this, R.string.modify_fail, Toast.LENGTH_SHORT).show();
+                    else if(flag == 1) {
+                        Toast.makeText(Setting.this, R.string.modify_success, Toast.LENGTH_SHORT).show();
+                        editor.putString("nick_name",key);
+                        name.setText(key);
+                    }
+                    break;
             }
         }
     };
@@ -138,7 +155,7 @@ public class Setting extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
     private TextView name,stu_id,phone,qq,sex,sigh;
-    private TableRow trtele,trqq,trsex,trsigh;
+    private TableRow trtele,trqq,trsex,trsigh,nickname;
     private CircleImageView avator;
     String single[] = {"男","女"};
     String singleChoice;
@@ -153,6 +170,8 @@ public class Setting extends AppCompatActivity {
         qq = (TextView)findViewById(R.id.qq);
         sex = (TextView)findViewById(R.id.sex);
         sigh = (TextView)findViewById(R.id.sigh);
+
+        nickname = (TableRow)findViewById(R.id.nickname);
         trtele = (TableRow)findViewById(R.id.trtele);
         trqq = (TableRow)findViewById(R.id.trqq);
         trsex = (TableRow)findViewById(R.id.trsex);
@@ -176,6 +195,44 @@ public class Setting extends AppCompatActivity {
                         handler.sendMessage(msg);
                     }
                 }).start();
+            }
+        });
+        nickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final android.app.AlertDialog.Builder builder;
+                final EditText et = new EditText(Setting.this);
+                et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+                et.setSingleLine(true);
+                et.setMovementMethod(ScrollingMovementMethod.getInstance());
+                builder = new android.app.AlertDialog.Builder(Setting.this);
+                builder.setTitle("请输入用户名（不超过5个字符）");
+                et.setText(name.getText());
+                builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            new Thread(new Runnable(){
+                                @Override
+                                public void run()
+                                {
+                                    String key = et.getText().toString();
+                                    JSONObject result =  NewService.getinfo(preferences.getString("token",null),"update_nick_name",key);
+                                    Message msg = new Message();
+                                    msg.obj = result;
+                                    msg.what = 5;
+                                    handler.sendMessage(msg);
+                                }
+                            }).start();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                builder.setView(et);
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.create().show();
             }
         });
         trtele.setOnClickListener(new View.OnClickListener() {
@@ -335,8 +392,8 @@ public class Setting extends AppCompatActivity {
         });
     }
     public void initInfo(){
-        name.setText(preferences.getString("userName",null));
-        stu_id.setText(preferences.getString("stu_id","未认证"));
+        name.setText(preferences.getString("nick_name",null));
+        stu_id.setText(preferences.getString("userName","未认证"));
         phone.setText(preferences.getString("phone_num","未设置"));
         qq.setText(preferences.getString("qq_num","未设置"));
         trtele = (TableRow)findViewById(R.id.trtele);

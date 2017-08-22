@@ -62,7 +62,7 @@
                     android:textSize="17dp" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/QR"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"

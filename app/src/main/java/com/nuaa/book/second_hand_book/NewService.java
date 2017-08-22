@@ -87,7 +87,7 @@ public class NewService {
                 is.close();
                 baos.close();
                 System.out.println(baos.toString());
-                jsonObject = new JSONObject(baos.toString()).getJSONObject("data").getJSONObject("result");
+                jsonObject = new JSONObject(baos.toString()).getJSONObject("data");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,6 +197,9 @@ public class NewService {
             if (type.equals("update_sex")){
                 int sex = (key.equals("男"))?1:0;
                 data += "&sex="+sex;
+            }
+            if (type.equals("update_nick_name")){
+                data += "&nick_name="+URLEncoder.encode(key, "UTF-8");
             }
             if (type.equals("update_qq_num")){
                 data += "&qq_num="+URLEncoder.encode(key, "UTF-8");

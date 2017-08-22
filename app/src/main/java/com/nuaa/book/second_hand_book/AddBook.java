@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+
 import org.json.JSONObject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -94,6 +96,7 @@ public class AddBook extends AppCompatActivity {
         
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
+        ZXingLibrary.initDisplayOpinion(this);
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

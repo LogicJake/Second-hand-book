@@ -38,7 +38,7 @@ public class UserInfo extends Fragment {
                     else
                     {
                         try {
-                            editor.putString("stu_id",res.getString("stu_id"));
+                            editor.putString("nick_name",res.getString("nick_name"));
                             editor.putString("phone_num",res.getString("phone_num"));
                             editor.putString("qq_num",res.getString("qq_num"));
                             editor.putString("user_sign",res.getString("user_sign"));
@@ -51,7 +51,7 @@ public class UserInfo extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        user_name.setText(preferences.getString("userName",null));
+                        user_name.setText(preferences.getString("nick_name",null));
                         sell_num.setText("("+preferences.getString("sell_num","0")+")");
                         like_num.setText("("+preferences.getString("like_num","0")+")");
                         if (preferences.getString("sex",null).equals("0"))
