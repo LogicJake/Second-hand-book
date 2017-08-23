@@ -24,7 +24,10 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,8 +47,8 @@ public class Home extends Fragment {
                         mSchedule = new SimpleAdapter(getActivity(),
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
-                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex"},
-                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex});
+                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex","add_time"},
+                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex,R.id.time});
                         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
                             @Override
                             public boolean setViewValue(View view, Object data,String textRepresentation) {
@@ -83,6 +86,33 @@ public class Home extends Fragment {
                                         sex.setImageResource(R.drawable.female);
                                     else
                                         sex.setImageResource(R.drawable.male);
+                                    return true;
+                                }
+                                else if (view.getId() == R.id.time){
+                                    String raw_time = (String)data;
+                                    Calendar time = stampTocal(raw_time);
+                                    Calendar localtime = Calendar.getInstance();
+                                    TextView tv_time = (TextView)view;
+                                    System.out.println(Integer.toString(time.get(Calendar.YEAR))+"-"+Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH)+" "+time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
+                                    if(time.get(Calendar.YEAR) == localtime.get(Calendar.YEAR)&&time.get(Calendar.MONTH) == localtime.get(Calendar.MONTH)){
+                                        System.out.println("1");
+                                        System.out.println(time.get(Calendar.DAY_OF_MONTH)+"."+localtime.get(Calendar.DAY_OF_MONTH));
+                                        if (time.get(Calendar.DAY_OF_MONTH) == localtime.get(Calendar.DAY_OF_MONTH)) {
+                                            System.out.println("2");
+                                            tv_time.setText("今天");
+                                            System.out.print(tv_time.getText().toString());
+                                        }
+                                        else {
+                                            if ( (time.get(Calendar.DAY_OF_MONTH) + 1)== ( localtime.get(Calendar.DAY_OF_MONTH) )) {
+                                                tv_time.setText("昨天");
+                                            }
+                                            else {
+                                                tv_time.setText(Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH)+" "+time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
+                                            }
+                                        }
+                                    }
+                                    else
+                                        tv_time.setText(Integer.toString(time.get(Calendar.YEAR))+"-"+Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH)+" "+time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
                                     return true;
                                 }
                                 return false;
@@ -170,6 +200,7 @@ public class Home extends Fragment {
                             map.put("quality",temp.getString("quality"));
                             map.put("sex",temp.getString("seller_sex"));
                             map.put("name",temp.getString("seller_name"));
+                            map.put("add_time",temp.get("add_time"));
                             mListData.add(map);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -190,5 +221,14 @@ public class Home extends Fragment {
                 }
             }
         }).start();
+    }
+    public static Calendar stampTocal(String s){
+        s+="000";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
     }
 }
