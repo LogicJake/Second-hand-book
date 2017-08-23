@@ -400,9 +400,9 @@ public class Setting extends AppCompatActivity {
         trqq = (TableRow)findViewById(R.id.trqq);
         trsex = (TableRow)findViewById(R.id.trsex);
         trsigh = (TableRow)findViewById(R.id.trsigh);
-        if(preferences.getString("sex",null).equals("-1"))
+        if(preferences.getString("sex","-1").equals("-1"))
             sex.setText("未设置");
-        else if(preferences.getString("sex",null).equals("0"))
+        else if(preferences.getString("sex","-1").equals("0"))
             sex.setText("女");
         else
             sex.setText("男");
