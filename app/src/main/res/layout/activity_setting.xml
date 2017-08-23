@@ -258,10 +258,10 @@
             android:layout_height="wrap_content"
             android:text="@string/exit"
             android:textSize="20dp"
-            android:textColor="@color/red_btn_bg_color"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"/>
     </TableLayout>
 </ScrollView>
 

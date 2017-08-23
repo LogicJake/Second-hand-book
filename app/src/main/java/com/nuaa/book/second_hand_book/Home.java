@@ -131,7 +131,7 @@ public class Home extends Fragment {
             }
         }
     };
-    private static String url = pic_root +"1.png";
+    private TextView more;
     private LinearLayout allBook;
     private ListView mlistview;
     private EditText search;
@@ -150,6 +150,7 @@ public class Home extends Fragment {
         mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
         search = (EditText) view.findViewById(R.id.search);
         pg = (ProgressBar)view.findViewById(R.id.pg);
+        more = (TextView)view.findViewById(R.id.more);
         preferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
         System.out.println("Home......token"+preferences.getString("token",null));
@@ -162,6 +163,13 @@ public class Home extends Fragment {
                 transaction.detach(fg);
                 transaction.attach(fg);
                 transaction.commit();
+            }
+        });
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                startActivity(intent);
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
