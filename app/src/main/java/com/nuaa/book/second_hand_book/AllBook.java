@@ -127,6 +127,7 @@ public class AllBook extends AppCompatActivity {
         setContentView(R.layout.activity_all_book);
         Intent intent =getIntent();
         int type = intent.getIntExtra("type",1);
+        System.out.println("type"+type);
         getData(type);
         mlistview = (ListView)findViewById(R.id.booklist) ;
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
@@ -140,12 +141,12 @@ public class AllBook extends AppCompatActivity {
         mlistview.setDividerHeight(30);
     }
 
-    public void getData(int type){
+    public void getData(final int type){
         new Thread(new Runnable(){
             @Override
             public void run()
             {
-                JSONArray result = NewService.getbook(preferences.getString("token",null),0);
+                JSONArray result = NewService.getbook(preferences.getString("token",null),type);
                 if (result!=null) {
                     mListData.clear();
                     for (int i = 0; i < result.length(); i++) {

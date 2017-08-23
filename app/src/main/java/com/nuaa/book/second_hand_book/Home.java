@@ -130,7 +130,7 @@ public class Home extends Fragment {
         }
     };
     private TextView more;
-    private LinearLayout allBook;
+    private LinearLayout allBook,socialsci;
     private ListView mlistview;
     private EditText search;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
@@ -144,6 +144,7 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,container,false);
         allBook = (LinearLayout) view.findViewById(R.id.all);
+        socialsci = (LinearLayout) view.findViewById(R.id.socialsci);
         mlistview = (ListView) view.findViewById(R.id.MyListView);
         mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
         search = (EditText) view.findViewById(R.id.search);
@@ -182,6 +183,14 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"所有分类",Toast.LENGTH_SHORT).show();
+            }
+        });
+        socialsci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 8);
+                startActivity(intent);
             }
         });
         return view;

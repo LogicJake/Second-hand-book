@@ -403,7 +403,7 @@ public class NewService {
                 }
                 is.close();
                 baos.close();
-                System.out.println(baos.toString());
+                System.out.println("输出"+baos.toString());
                 res = new JSONObject(baos.toString());
             }
         } catch (Exception e) {
