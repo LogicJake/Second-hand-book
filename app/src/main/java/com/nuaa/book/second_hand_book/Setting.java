@@ -414,7 +414,7 @@ public class Setting extends AppCompatActivity {
             public void onClick(View v) {
                 menuWindow = new SelectPicPopupWindow(Setting.this, itemsOnClick);
                 //显示窗口
-                menuWindow.showAtLocation(Setting.this.findViewById(R.id.avatar), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                menuWindow.showAtLocation(Setting.this.findViewById(R.id.pic), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
     }
