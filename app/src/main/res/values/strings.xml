@@ -52,6 +52,7 @@
     <string name="score">积分</string>
     <string name="sign">个性签名</string>
     <string name="hobby">兴趣</string>
+    <string name="no_book">没有查询到这本书 请检查ISBN是否正确</string>
     <string name="exit">退出登录</string>
     <!-- Strings related to sign_up -->
     <string name="title_activity_signUp">登陆</string>

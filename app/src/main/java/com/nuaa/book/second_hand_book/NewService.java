@@ -21,6 +21,7 @@ public class NewService {
     //test nrtwork：http://test.logicjake.xyz/book-api/
     public static String rooturl = "http://test.logicjake.xyz/book-api/";
     public static String pic_root = "http://test.logicjake.xyz/book-api/pic/";
+    public static String ISBNurl = "https://api.douban.com/v2/book/isbn/:";
     public static String getMD5(String message) {
         String md5 = "";
         try {
@@ -324,11 +325,12 @@ public class NewService {
         return res;
     }
 
-    public static JSONObject addbook(String token,String ISBN,String name,String author,String publisher,String old_price,String now_price,String num,String classify,String quality,String remark)
+    public static JSONObject addbook(String token,String ISBN,String name,String author,String publisher,String old_price,String now_price,String num,String classify,String quality,String remark,String image_url)
     {
         JSONObject res = null;
+        System.out.println("image_url+=== "+image_url);
         try {
-            String path = rooturl+"index.php?_action=addbook&token="+token+"&ISBN="+URLEncoder.encode(ISBN, "UTF-8")+"&name="+URLEncoder.encode(name, "UTF-8")+"&author="+URLEncoder.encode(author, "UTF-8")+"&publisher="+URLEncoder.encode(publisher, "UTF-8")+"&old_price="+URLEncoder.encode(old_price, "UTF-8")+"&now_price="+URLEncoder.encode(now_price, "UTF-8")+"&num="+URLEncoder.encode(num, "UTF-8")+"&classify="+URLEncoder.encode(classify, "UTF-8")+"&quality="+URLEncoder.encode(quality, "UTF-8")+"&remark="+URLEncoder.encode(remark, "UTF-8");
+            String path = rooturl+"index.php?_action=addbook&token="+token+"&ISBN="+URLEncoder.encode(ISBN, "UTF-8")+"&name="+URLEncoder.encode(name, "UTF-8")+"&author="+URLEncoder.encode(author, "UTF-8")+"&publisher="+URLEncoder.encode(publisher, "UTF-8")+"&old_price="+URLEncoder.encode(old_price, "UTF-8")+"&now_price="+URLEncoder.encode(now_price, "UTF-8")+"&num="+URLEncoder.encode(num, "UTF-8")+"&classify="+URLEncoder.encode(classify, "UTF-8")+"&quality="+URLEncoder.encode(quality, "UTF-8")+"&remark="+URLEncoder.encode(remark, "UTF-8")+"&image_url="+URLEncoder.encode(image_url, "UTF-8");
             URL url = new URL(path);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             // 设置请求的方式
@@ -355,6 +357,43 @@ public class NewService {
                 baos.close();
                 System.out.println(baos.toString());
                 res = new JSONObject(baos.toString()).getJSONObject("data");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+    public static JSONObject ISBNinfo(String ISBN)
+    {
+        JSONObject res = null;
+        try {
+            String path = ISBNurl+ISBN;
+            URL url = new URL(path);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            // 设置请求的方式
+            urlConnection.setRequestMethod("GET");
+            // 设置请求的超时时间
+            urlConnection.setReadTimeout(5000);
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.connect();
+            if (urlConnection.getResponseCode() == 200) {
+                // 获取响应的输入流对象
+                InputStream is = urlConnection.getInputStream();
+                // 创建字节输出流对象
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // 定义读取的长度
+                int len = 0;
+                // 定义缓冲区
+                byte buffer[] = new byte[1024];
+                // 按照缓冲区的大小，循环读取
+                while ((len = is.read(buffer)) != -1) {
+                    // 根据读取的长度写入到os对象中
+                    baos.write(buffer, 0, len);
+                }
+                is.close();
+                baos.close();
+                System.out.println(baos.toString());
+                res = new JSONObject(baos.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
