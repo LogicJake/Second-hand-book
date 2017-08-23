@@ -192,7 +192,7 @@ public class Home extends Fragment {
                         try {
                             JSONObject temp = (JSONObject) result.get(i);
                             HashMap map = new HashMap<String,Object>();
-                            map.put("url",pic_root+temp.getString("pic_url"));
+                            map.put("url",temp.getString("pic_url"));
                             map.put("bookname", temp.getString("name"));
                             map.put("oldprice", "￥"+temp.getString("old_price"));
                             map.put("nowprice","￥"+temp.getString("now_price"));
