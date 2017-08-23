@@ -17,6 +17,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/sex"
                 android:layout_width="20dp"
@@ -34,16 +35,16 @@
                 android:text="admin" />
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:gravity="right">-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="right">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="南京航空航天大学"-->
-                    <!--android:textSize="13dp" />-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="南京航空航天大学"-->
+            <!--android:textSize="13dp" />-->
             <!--</LinearLayout>-->
         </LinearLayout>
 
@@ -55,17 +56,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
                 android:id="@+id/book_pic"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="3"
                 android:gravity="center"
                 android:src="@drawable/default_book" />
@@ -138,7 +139,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:textSize="11dp" />
+                        android:textSize="12dp" />
 
                     <ImageView
                         android:layout_width="15dp"
@@ -156,7 +157,7 @@
                         android:layout_weight="1"
                         android:gravity="left|center"
                         android:text="九成新"
-                        android:textSize="11dp" />
+                        android:textSize="12dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

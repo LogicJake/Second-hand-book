@@ -35,6 +35,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
 import static com.nuaa.book.second_hand_book.NewService.pic_root;
+import static com.nuaa.book.second_hand_book.SearchResult.setListViewHeightBasedOnChildren;
 
 public class Home extends Fragment {
     private Handler handler = new Handler() {
@@ -93,14 +94,9 @@ public class Home extends Fragment {
                                     Calendar time = stampTocal(raw_time);
                                     Calendar localtime = Calendar.getInstance();
                                     TextView tv_time = (TextView)view;
-                                    System.out.println(Integer.toString(time.get(Calendar.YEAR))+"-"+Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH)+" "+time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
                                     if(time.get(Calendar.YEAR) == localtime.get(Calendar.YEAR)&&time.get(Calendar.MONTH) == localtime.get(Calendar.MONTH)){
-                                        System.out.println("1");
-                                        System.out.println(time.get(Calendar.DAY_OF_MONTH)+"."+localtime.get(Calendar.DAY_OF_MONTH));
                                         if (time.get(Calendar.DAY_OF_MONTH) == localtime.get(Calendar.DAY_OF_MONTH)) {
-                                            System.out.println("2");
                                             tv_time.setText("今天");
-                                            System.out.print(tv_time.getText().toString());
                                         }
                                         else {
                                             if ( (time.get(Calendar.DAY_OF_MONTH) + 1)== ( localtime.get(Calendar.DAY_OF_MONTH) )) {
@@ -121,6 +117,8 @@ public class Home extends Fragment {
                         pg.setVisibility(View.GONE);
                         //添加并且显示
                         mlistview.setAdapter(mSchedule);
+                        setListViewHeightBasedOnChildren(mlistview);
+                        mSchedule.notifyDataSetChanged();
                     }
                     else if (res == 2) {
                         mswipeRefreshLayout.setRefreshing(false);
@@ -169,6 +167,7 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 0);
                 startActivity(intent);
             }
         });
@@ -193,7 +192,7 @@ public class Home extends Fragment {
             @Override
             public void run()
             {
-                JSONArray result = NewService.getbook(preferences.getString("token",null));
+                JSONArray result = NewService.getbook(preferences.getString("token",null),0);
                 if (result!=null) {
                     mListData.clear();
                     for (int i = 0; i < result.length(); i++) {

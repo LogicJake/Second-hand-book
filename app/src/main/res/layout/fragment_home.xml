@@ -268,7 +268,7 @@
                         android:layout_marginLeft="10dp"
                         android:text="最新上架"
                         android:textColor="#808080"
-                        android:textSize="15dp"
+                        android:textSize="18dp"
                         android:gravity="center"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -282,8 +282,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="15dp"
                             android:text="更多>"
-                            android:textSize="13dp"
-                            android:textColor="#00C7B4"
+                            android:textSize="15dp"
+                            android:textColor="@color/MainColor"
                             android:gravity="center"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -298,7 +298,7 @@
                     android:visibility="visible"/>
                 <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="850dp"
+                    android:layout_height="0dp"
                     android:id="@+id/MyListView">
 
                 </ListView>

@@ -20,9 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.nuaa.book.second_hand_book.Home.stampTocal;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
 import static com.nuaa.book.second_hand_book.NewService.pic_root;
@@ -38,8 +40,8 @@ public class SearchResult extends AppCompatActivity {
                         mSchedule = new SimpleAdapter(SearchResult.this,
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
-                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex"},
-                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex});
+                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex","add_time"},
+                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex,R.id.time});
                         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
                             @Override
                             public boolean setViewValue(View view, Object data,String textRepresentation) {
@@ -77,6 +79,28 @@ public class SearchResult extends AppCompatActivity {
                                         sex.setImageResource(R.drawable.female);
                                     else
                                         sex.setImageResource(R.drawable.male);
+                                    return true;
+                                }
+                                else if (view.getId() == R.id.time){
+                                    String raw_time = (String)data;
+                                    Calendar time = stampTocal(raw_time);
+                                    Calendar localtime = Calendar.getInstance();
+                                    TextView tv_time = (TextView)view;
+                                    if(time.get(Calendar.YEAR) == localtime.get(Calendar.YEAR)&&time.get(Calendar.MONTH) == localtime.get(Calendar.MONTH)){
+                                        if (time.get(Calendar.DAY_OF_MONTH) == localtime.get(Calendar.DAY_OF_MONTH)) {
+                                            tv_time.setText("今天");
+                                        }
+                                        else {
+                                            if ( (time.get(Calendar.DAY_OF_MONTH) + 1)== ( localtime.get(Calendar.DAY_OF_MONTH) )) {
+                                                tv_time.setText("昨天");
+                                            }
+                                            else {
+                                                tv_time.setText(Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH)+" "+time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
+                                            }
+                                        }
+                                    }
+                                    else
+                                        tv_time.setText(Integer.toString(time.get(Calendar.YEAR))+"-"+Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH)+" "+time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
                                     return true;
                                 }
                                 return false;
@@ -141,7 +165,7 @@ public class SearchResult extends AppCompatActivity {
                         try {
                             JSONObject temp = (JSONObject) result.get(i);
                             HashMap map = new HashMap<String,Object>();
-                            map.put("url",pic_root+temp.getString("pic_url"));
+                            map.put("url",temp.getString("pic_url"));
                             map.put("bookname", temp.getString("name"));
                             map.put("oldprice", "￥"+temp.getString("old_price"));
                             map.put("nowprice","￥"+temp.getString("now_price"));
@@ -149,6 +173,7 @@ public class SearchResult extends AppCompatActivity {
                             map.put("quality",temp.getString("quality"));
                             map.put("sex",temp.getString("seller_sex"));
                             map.put("name",temp.getString("seller_name"));
+                            map.put("add_time",temp.get("add_time"));
                             mListData.add(map);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -171,7 +196,7 @@ public class SearchResult extends AppCompatActivity {
         }).start();
     }
 
-    public void setListViewHeightBasedOnChildren(ListView listView) {
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
         //获取listview的适配器
         ListAdapter listAdapter = listView.getAdapter(); //item的高度
         if (listAdapter == null) {

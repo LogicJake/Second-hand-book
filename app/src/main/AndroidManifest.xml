@@ -56,8 +56,7 @@
             android:name=".AddBook"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AllBook"
-            android:parentActivityName=".MainActivity"></activity>
+            android:name=".AllBook"></activity>
     </application>
 
 </manifest>
