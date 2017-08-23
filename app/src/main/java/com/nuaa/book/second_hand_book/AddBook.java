@@ -41,14 +41,25 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            int res = -1;
             JSONObject result = (JSONObject) msg.obj;
-            if (result == null){
+            if (result == null) {
                 pDialog.cancel();
                 Toast.makeText(AddBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
             }
             else{
+                try {
+                    res = result.getInt("result");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 pDialog.cancel();
-                Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
+                if (res == 2)
+                    Toast.makeText(AddBook.this, "请不要重复提交", Toast.LENGTH_SHORT).show();
+                else if (res == 0)
+                    Toast.makeText(AddBook.this, "上架失败", Toast.LENGTH_SHORT).show();
+                else if (res == 1)
+                    Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
             }
         }
     };
