@@ -33,6 +33,9 @@ dependencies {
     compile 'cn.yipianfengye.android:zxing-library:2.1'     //二维码扫描
     compile 'pub.devrel:easypermissions:0.2.0'              //权限管理
 
+    compile files('libs/universal-image-loader-1.9.5.jar')
+    compile 'cn.finalteam:galleryfinal:1.4.8.7'
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
