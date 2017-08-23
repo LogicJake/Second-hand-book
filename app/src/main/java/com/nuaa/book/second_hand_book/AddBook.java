@@ -87,7 +87,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddBook.this, "识别成功", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -264,12 +264,10 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Toast.makeText(this, "执行onPermissionsGranted()...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        Toast.makeText(this, "执行onPermissionsDenied()...", Toast.LENGTH_SHORT).show();
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this, "当前App需要申请camera权限,需要打开设置页面么?")
                     .setTitle("权限申请")
