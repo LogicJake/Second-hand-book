@@ -3,6 +3,7 @@ package com.nuaa.book.second_hand_book;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,11 +21,22 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.List;
+
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER_HORIZONTAL;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
-import static com.nuaa.book.second_hand_book.NewService.pic_root;
+import static com.nuaa.book.second_hand_book.NewService.avator_root;
 
 public class Setting extends AppCompatActivity {
     private Handler handler = new Handler() {
@@ -154,8 +166,17 @@ public class Setting extends AppCompatActivity {
     private TextView name,stu_id,phone,qq,sex,sigh;
     private TableRow trtele,trqq,trsex,trsigh,nickname;
     private CircleImageView avator;
+    SelectPicPopupWindow menuWindow;
     String single[] = {"男","女"};
     String singleChoice;
+
+    private int REQUEST_CODE_GALLERY = 200;
+    private int REQUEST_CODE_CAMERA = 100;
+    private FunctionConfig functionConfig;
+
+    private SweetAlertDialog pDialog;
+    private SweetAlertDialog pDialog2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +197,7 @@ public class Setting extends AppCompatActivity {
         avator = (CircleImageView)findViewById(R.id.avator);
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
+        InitGalleryFinal();                 //初始化图片选择器
         initInfo();
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -387,6 +409,14 @@ public class Setting extends AppCompatActivity {
                 builder.create().show();
             }
         });
+        avator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuWindow = new SelectPicPopupWindow(Setting.this, itemsOnClick);
+                //显示窗口
+                menuWindow.showAtLocation(Setting.this.findViewById(R.id.avatar), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            }
+        });
     }
     public void initInfo(){
         name.setText(preferences.getString("nick_name",null));
@@ -407,6 +437,73 @@ public class Setting extends AppCompatActivity {
             sigh.setText("");
         else
             sigh.setText(preferences.getString("user_sign",null));
-        imageLoader.displayImage(pic_root+preferences.getString("avator_url",null),avator,options);
+        imageLoader.displayImage(avator_root+preferences.getString("avator_url",null),avator,options);
     }
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.btn_take_photo:
+                    GalleryFinal.openCamera(REQUEST_CODE_CAMERA, functionConfig, mOnHanlderResultCallback);
+                    break;
+                case R.id.btn_pick_photo:
+                    GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    public void InitGalleryFinal(){
+        ThemeConfig theme = new ThemeConfig.Builder().build();
+
+        functionConfig = new FunctionConfig.Builder()
+                .setEnableCamera(true)
+                .setEnableEdit(true)
+                .setEnableCrop(true)
+                .setEnableRotate(true)
+                .setCropSquare(true)
+                .setEnablePreview(true)
+                .build();
+
+        cn.finalteam.galleryfinal.ImageLoader imageloader = new UILImageLoader();
+
+        CoreConfig coreConfig = new CoreConfig.Builder(Setting.this, imageloader, theme).setFunctionConfig(functionConfig).build();
+        GalleryFinal.init(coreConfig);
+    }
+
+    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback=new GalleryFinal.OnHanlderResultCallback() {
+        @Override
+        public void onHanlderSuccess(int i, List<PhotoInfo> list) {
+            pDialog2 = new SweetAlertDialog(Setting.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog2.setTitleText("上传头像中");
+            pDialog2.setCancelable(false);
+            pDialog2.show();
+            final String filepath = list.get(0).getPhotoPath();
+            if (list!=null){
+                if (i==100){
+                    System.out.println("openCamera");
+                }else if (i==200){
+                    System.out.println("openGallerySingle");
+                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject res = NewService.avater(new File(filepath), preferences.getString("token", ""));
+                        Message msg = new Message();
+                        msg.what = 5;
+                        msg.obj = res;
+                        handler.sendMessage(msg);
+                    }
+                }).start();
+            }
+        }
+        @Override
+        public void onHanlderFailure(int i, String s) {
+            Toast.makeText(Setting.this,"设置头像失败",Toast.LENGTH_SHORT);
+        }
+    };
 }

@@ -1,9 +1,7 @@
 package com.nuaa.book.second_hand_book;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +65,7 @@ public class UserInfo extends Fragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private SwipeRefreshLayout mswipeRefreshLayout;
-    private ImageView sex;
+    private ImageView sex,avatar;
     public UserInfo() {
         // Required empty public constructor
     }
@@ -79,6 +76,7 @@ public class UserInfo extends Fragment {
         sell_num = (TextView) view.findViewById(R.id.sell_num);
         like_num = (TextView) view.findViewById(R.id.like_num);
         sex = (ImageView)view.findViewById(R.id.sex);
+        avatar = (ImageView)view.findViewById(R.id.avatar);
         mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
         preferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
@@ -120,4 +118,5 @@ public class UserInfo extends Fragment {
             e.printStackTrace();
         }
     }
+
 }
