@@ -67,7 +67,7 @@ public class LaunchScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-            }, 3000);
+            }, 1000);
         }
         else
         {
@@ -79,7 +79,7 @@ public class LaunchScreen extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-            }, 3000);
+            }, 1000);
         }
     }
 }
