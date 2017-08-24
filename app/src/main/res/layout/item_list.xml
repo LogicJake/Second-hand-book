@@ -113,7 +113,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="8"
-                        android:text="￥ 30.00"
                         android:textColor="@color/LightGrey"
                         android:textSize="15dp" />
                 </LinearLayout>

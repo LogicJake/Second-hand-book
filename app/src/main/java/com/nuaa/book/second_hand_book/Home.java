@@ -62,6 +62,7 @@ public class Home extends Fragment {
                                 {
                                     TextView tv = (TextView) view;
                                     tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                                    tv.setText((String )data);
                                     return true;
                                 }
                                 else if(view.getId() == R.id.quality){
