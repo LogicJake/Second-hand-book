@@ -118,7 +118,7 @@ public class SearchResult extends AppCompatActivity {
         }
     };
     private SearchView searchView;
-    private TextView backup;
+    private ImageView backup;
     private SharedPreferences preferences;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mSchedule;
@@ -130,7 +130,7 @@ public class SearchResult extends AppCompatActivity {
         searchView = (SearchView)findViewById(R.id.searchView);
         mlistview = (ListView)findViewById(R.id.searchResult) ;
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
-        backup = (TextView)findViewById(R.id.backup);
+        backup = (ImageView)findViewById(R.id.backup);
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -117,7 +117,7 @@ public class AllBook extends AppCompatActivity {
         }
     };
     private SharedPreferences preferences;
-    private TextView backup;
+    private ImageView backup;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mSchedule;
     private ListView mlistview;
@@ -125,13 +125,13 @@ public class AllBook extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_book);
+        preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);       //先声明再使用
+        backup = (ImageView) findViewById(R.id.backup);
         Intent intent =getIntent();
         int type = intent.getIntExtra("type",1);
         System.out.println("type"+type);
         getData(type);
         mlistview = (ListView)findViewById(R.id.booklist) ;
-        preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
-        backup = (TextView)findViewById(R.id.backup);
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

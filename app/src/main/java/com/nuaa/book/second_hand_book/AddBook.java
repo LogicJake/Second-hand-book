@@ -111,7 +111,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
     private EditText old_price;
     private EditText now_price;
     private EditText num;
-    private TextView backup;
+    private ImageView backup;
     private Spinner classify;
     private Spinner quality;
     private EditText remark;
@@ -152,7 +152,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
         quality = (Spinner)findViewById(R.id.quality);
         remark = (EditText)findViewById(R.id.remark);
         publish = (Button)findViewById(R.id.publish);
-        backup = (TextView)findViewById(R.id.backup);
+        backup = (ImageView) findViewById(R.id.backup);
         QR = (ImageView)findViewById(R.id.QR);
         cover = (ImageView)findViewById(R.id.cover);
         

@@ -6,26 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.nuaa.book.second_hand_book.AddBook">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MainColor"
-        android:orientation="horizontal">
-        <TextView
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageView
             android:id="@+id/backup"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="＜"
-            android:textColor="#FFFFFF"
-            android:textSize="40dp" />
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/backup" />
 
         <Spinner
+            android:id="@+id/quality"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/quality"
-            android:entries="@array/classify2"
-            />
+            android:entries="@array/classify2" />
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,7 +37,7 @@
             android:layout_height="match_parent">
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="1dp"
                 android:id="@+id/booklist">
             </ListView>
         </LinearLayout>
