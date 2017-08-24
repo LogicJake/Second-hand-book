@@ -14,15 +14,15 @@
 
     <string-array name="classify2">
         <item>所有分类</item>
-        <item>文学艺术</item>
-        <item>人文社科 </item>
-        <item>经济管理</item>
-        <item>生活休闲</item>
-        <item>外语学习</item>
-        <item>自然科学</item>
-        <item>考试教育</item>
-        <item>计算机</item>
         <item>医学</item>
+        <item>计算机 </item>
+        <item>考试教育</item>
+        <item>自然科学</item>
+        <item>外语学习</item>
+        <item>生活休闲</item>
+        <item>经济管理</item>
+        <item>人文社科</item>
+        <item>文学艺术</item>
     </string-array>
 
     <string-array name="quality">

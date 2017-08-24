@@ -130,7 +130,7 @@ public class Home extends Fragment {
         }
     };
     private TextView more;
-    private LinearLayout allBook,socialsci;
+    private LinearLayout allBook,socialsci,art,economics,life,language,science,exam,cs,Medical;
     private ListView mlistview;
     private EditText search;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
@@ -145,6 +145,14 @@ public class Home extends Fragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,container,false);
         allBook = (LinearLayout) view.findViewById(R.id.all);
         socialsci = (LinearLayout) view.findViewById(R.id.socialsci);
+        art = (LinearLayout)view.findViewById(R.id.art);
+        economics = (LinearLayout)view.findViewById(R.id.economics);
+        life = (LinearLayout)view.findViewById(R.id.life);
+        language = (LinearLayout)view.findViewById(R.id.language);
+        science = (LinearLayout)view.findViewById(R.id.science);
+        exam = (LinearLayout)view.findViewById(R.id.exam);
+        cs = (LinearLayout)view.findViewById(R.id.cs);
+        Medical = (LinearLayout)view.findViewById(R.id.Medical);
         mlistview = (ListView) view.findViewById(R.id.MyListView);
         mswipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh);
         search = (EditText) view.findViewById(R.id.search);
@@ -164,35 +172,19 @@ public class Home extends Fragment {
                 transaction.commit();
             }
         });
-        more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AllBook.class);
-                intent.putExtra("type", 0);
-                startActivity(intent);
-            }
-        });
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchResult.class);
-                startActivity(intent);
-            }
-        });
-        allBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"所有分类",Toast.LENGTH_SHORT).show();
-            }
-        });
-        socialsci.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AllBook.class);
-                intent.putExtra("type", 8);
-                startActivity(intent);
-            }
-        });
+
+        more.setOnClickListener(new MyOnClickListener(more.getId()));
+        search.setOnClickListener(new MyOnClickListener(search.getId()));
+        allBook.setOnClickListener(new MyOnClickListener(allBook.getId()));
+        socialsci.setOnClickListener(new MyOnClickListener(socialsci.getId()));
+        art.setOnClickListener(new MyOnClickListener(art.getId()));
+        economics.setOnClickListener(new MyOnClickListener(economics.getId()));
+        life.setOnClickListener(new MyOnClickListener(life.getId()));
+        language.setOnClickListener(new MyOnClickListener(language.getId()));
+        science.setOnClickListener(new MyOnClickListener(science.getId()));
+        exam.setOnClickListener(new MyOnClickListener(exam.getId()));
+        cs.setOnClickListener(new MyOnClickListener(cs.getId()));
+        Medical.setOnClickListener(new MyOnClickListener(Medical.getId()));
         return view;
     }
 
@@ -246,5 +238,62 @@ public class Home extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal;
+    }
+    class MyOnClickListener implements View.OnClickListener{
+
+        private int buttonId;
+
+        public MyOnClickListener(int buttonId) {
+            this.buttonId = buttonId;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.search) {
+                Intent intent = new Intent(getActivity(), SearchResult.class);
+                startActivity(intent);
+            } else if (v.getId() == R.id.art){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 9);
+                startActivity(intent);
+            }else if (v.getId() == R.id.socialsci){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 8);
+                startActivity(intent);
+            }else if (v.getId() == R.id.economics){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 7);
+                startActivity(intent);
+            }else if (v.getId() == R.id.life){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 6);
+                startActivity(intent);
+            }else if (v.getId() == R.id.language){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 5);
+                startActivity(intent);
+            }else if (v.getId() == R.id.science){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 4);
+                startActivity(intent);
+            }else if (v.getId() == R.id.exam){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 3);
+                startActivity(intent);
+            }else if (v.getId() == R.id.cs){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 2);
+                startActivity(intent);
+            }else if (v.getId() == R.id.Medical){
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 1);
+                startActivity(intent);
+            }else if (v.getId() == R.id.more || v.getId() == R.id.all) {
+                Intent intent = new Intent(getActivity(), AllBook.class);
+                intent.putExtra("type", 0);
+                startActivity(intent);
+            }
+
+        }
     }
 }

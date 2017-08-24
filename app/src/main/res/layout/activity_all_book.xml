@@ -23,7 +23,7 @@
             android:src="@drawable/backup" />
 
         <Spinner
-            android:id="@+id/quality"
+            android:id="@+id/classify"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:entries="@array/classify2" />
@@ -34,7 +34,16 @@
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/noInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="没有搜索到相关信息"
+                android:visibility="gone"/>
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
