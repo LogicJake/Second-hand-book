@@ -175,7 +175,9 @@ public class Setting extends AppCompatActivity {
                     else {
                         Toast.makeText(Setting.this, R.string.modify_fail, Toast.LENGTH_SHORT).show();
                     }
+                    pDialog2.cancel();
                     break;
+
             }
         }
     };
@@ -240,11 +242,11 @@ public class Setting extends AppCompatActivity {
             public void onClick(View v) {
                 final android.app.AlertDialog.Builder builder;
                 final EditText et = new EditText(Setting.this);
-                et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+                et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
                 et.setSingleLine(true);
                 et.setMovementMethod(ScrollingMovementMethod.getInstance());
                 builder = new android.app.AlertDialog.Builder(Setting.this);
-                builder.setTitle("请输入用户名（不超过5个字符）");
+                builder.setTitle("请输入用户名（不超过10个字符）");
                 et.setText(name.getText());
                 builder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
                     @Override
