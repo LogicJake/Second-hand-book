@@ -23,15 +23,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER_HORIZONTAL;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
+import static com.nuaa.book.second_hand_book.NewService.cover_root;
 import static com.nuaa.book.second_hand_book.NewService.pic_root;
 
 public class AddBook extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
@@ -61,6 +70,31 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
             }
         }
+    };
+    private Handler Coverhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int res = -1;
+            JSONObject result = (JSONObject) msg.obj;
+            if (result == null) {
+                Toast.makeText(AddBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                try {
+                    System.out.print("result++++: "+result);
+                    image_url = cover_root +  result.getString("cover_url");
+                    System.out.println("cover url "+ image_url);
+                    imageLoader.displayImage(image_url,cover,options);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            pDialog2.cancel();
+        }
+
     };
     private Handler ISBNhandler = new Handler() {
         @Override
@@ -142,9 +176,19 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
     private SharedPreferences.Editor editor;
     private SweetAlertDialog pDialog;
 
+    private int REQUEST_CODE_GALLERY = 200;
+    private int REQUEST_CODE_CAMERA = 100;
+    private FunctionConfig functionConfig;
+
+    SelectPicPopupWindow menuWindow;
+
+    private SweetAlertDialog pDialog2;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_book);
+
+        InitGalleryFinal();                 //初始化图片选择器
 
         ISBN = (EditText)findViewById(R.id.ISBN);
         name = (EditText)findViewById(R.id.name);
@@ -160,7 +204,8 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
         backup = (ImageView) findViewById(R.id.backup);
         QR = (ImageView)findViewById(R.id.QR);
         cover = (ImageView)findViewById(R.id.cover);
-        
+        image_url = null;
+
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
         ZXingLibrary.initDisplayOpinion(this);
@@ -185,22 +230,72 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 text_quality = (String)quality.getSelectedItem();
                 text_remark = remark.getText().toString();
                 token = preferences.getString("token",null);
-                pDialog = new SweetAlertDialog(AddBook.this, SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("正在上传");
-                pDialog.show();
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject result = NewService.addbook(token,text_ISBN,text_name,text_author,text_publisher,text_old_price,text_now_price,text_num,text_classify,text_quality,text_remark,image_url);
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        System.out.println("上架。。。。"+result);
-                        handler.sendMessage(msg);
-                    }
-                });
-                thread.start();
+                if(image_url == null)
+                {
+                    Toast.makeText(AddBook.this, "未上传封面", Toast.LENGTH_SHORT).show();
+                }else if(text_ISBN == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写ISBN", Toast.LENGTH_SHORT).show();
+                }
+                else if(!(text_ISBN.length()==10||text_ISBN.length()==13))
+                {
+                    Toast.makeText(AddBook.this,"ISBN位数错误", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_name == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写书名", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_author == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写作者", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_publisher == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写出版社", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_old_price == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写出原始价格", Toast.LENGTH_SHORT).show();
+                }
+                else if(!isNumeric(text_old_price))
+                {
+                    Toast.makeText(AddBook.this,"非纯数字", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_now_price == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写出售价", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_num == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写出售数量", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_classify == null)
+                {
+                    Toast.makeText(AddBook.this,"未填写种类", Toast.LENGTH_SHORT).show();
+                }
+                else if(text_quality == null)
+                {
+                    Toast.makeText(AddBook.this,"未选择质量等级", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    pDialog = new SweetAlertDialog(AddBook.this, SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("正在上传");
+                    pDialog.show();
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject result = NewService.addbook(token,text_ISBN,text_name,text_author,text_publisher,text_old_price,text_now_price,text_num,text_classify,text_quality,text_remark,image_url);
+                            Message msg = new Message();
+                            msg.what = 0;
+                            msg.obj = result;
+                            System.out.println("上架。。。。"+result);
+                            handler.sendMessage(msg);
+                        }
+                    });
+                    thread.start();
+                }
             }
         });
         QR.setOnClickListener(new View.OnClickListener() {
@@ -210,12 +305,88 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 cameraTask();
             }
         });
+        cover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuWindow = new SelectPicPopupWindow(AddBook.this, itemsOnClick);
+                //显示窗口
+                menuWindow.showAtLocation(AddBook.this.findViewById(R.id.pic), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            }
+        });
     }
 
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.btn_take_photo:
+                    GalleryFinal.openCamera(REQUEST_CODE_CAMERA, functionConfig, mOnHanlderResultCallback);
+                    break;
+                case R.id.btn_pick_photo:
+                    GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    public void InitGalleryFinal(){
+        ThemeConfig theme = new ThemeConfig.Builder().build();
+
+        functionConfig = new FunctionConfig.Builder()
+                .setEnableCamera(true)
+                .setEnableEdit(true)
+                .setEnableCrop(true)
+                .setEnableRotate(true)
+                .setCropSquare(true)
+                .setEnablePreview(true)
+                .build();
+
+        cn.finalteam.galleryfinal.ImageLoader imageloader = new UILImageLoader();
+
+        CoreConfig coreConfig = new CoreConfig.Builder(AddBook.this, imageloader, theme).setFunctionConfig(functionConfig).build();
+        GalleryFinal.init(coreConfig);
+    }
+    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback=new GalleryFinal.OnHanlderResultCallback() {
+        @Override
+        public void onHanlderSuccess(int i, List<PhotoInfo> list) {
+            pDialog2 = new SweetAlertDialog(AddBook.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog2.setTitleText("上传信息中");
+            pDialog2.setCancelable(false);
+            pDialog2.show();
+            final String filepath = list.get(0).getPhotoPath();
+            if (list != null) {
+                if (i == 100) {
+                    System.out.println("openCamera");
+                } else if (i == 200) {
+                    System.out.println("openGallerySingle");
+                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject res = NewService.book_cover(new File(filepath), preferences.getString("token", ""));
+                        Message msg = new Message();
+                        msg.what = 1;
+                        msg.obj = res;
+                        System.out.println("result: "+res);
+                        Coverhandler.sendMessage(msg);
+                    }
+                }).start();
+            }
+        }
+
+        @Override
+        public void onHanlderFailure(int i, String s) {
+            Toast.makeText(AddBook.this, "设置头像失败", Toast.LENGTH_SHORT).show();
+        }
+    };
     /**
      * 扫描跳转Activity RequestCode
      */
     public static final int REQUEST_CODE = 111;
+
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         /**
@@ -294,5 +465,9 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     .build()
                     .show();
         }
+    }
+
+    public boolean isNumeric(String s) {
+        return java.util.regex.Pattern.matches("\\d+", s);
     }
 }

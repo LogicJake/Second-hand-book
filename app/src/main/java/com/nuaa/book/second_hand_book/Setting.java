@@ -175,7 +175,9 @@ public class Setting extends AppCompatActivity {
                     else {
                         Toast.makeText(Setting.this, R.string.modify_fail, Toast.LENGTH_SHORT).show();
                     }
+                    pDialog2.cancel();
                     break;
+
             }
         }
     };
