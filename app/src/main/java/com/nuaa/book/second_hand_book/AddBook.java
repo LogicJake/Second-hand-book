@@ -90,9 +90,9 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     {
                         if(i>0)
                         {
-                            au = ',' + authors.getString(i).toString();
+                            au = au + ',' + authors.getString(i).toString();
                         }else {
-                            au = authors.getString(i);
+                            au = au + authors.getString(i);
                         }
                         System.out.println(authors.getString(i));
                     }
