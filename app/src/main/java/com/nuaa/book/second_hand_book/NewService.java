@@ -254,8 +254,8 @@ public class NewService {
         return result;
     }
 
-    public static JSONArray getbook(String token,int type) {
-        JSONArray res = null;
+    public static JSONObject getbook(String token,int type,int page) {
+        JSONObject res = null;
         try {
             String path = rooturl+"index.php?_action=getBook&token="+token;;
             URL url = new URL(path);
@@ -266,7 +266,7 @@ public class NewService {
             // 设置请求的超时时间
             urlConnection.setReadTimeout(5000);
             urlConnection.setConnectTimeout(5000);
-            String data = "&type="+type;
+            String data = "&type="+type+"&page="+page;
             urlConnection.setRequestProperty("Content-Length", String.valueOf(data.getBytes().length));
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
             urlConnection.setDoOutput(true); // 发送POST请求必须设置允许输出
@@ -291,7 +291,7 @@ public class NewService {
                 is.close();
                 baos.close();
                 System.out.println(baos);
-                res = new JSONObject(baos.toString()).getJSONObject("data").getJSONArray("book");
+                res = new JSONObject(baos.toString()).getJSONObject("data");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -127,10 +127,12 @@ public class AllBook extends AppCompatActivity {
     private SimpleAdapter mSchedule;
     private ListView mlistview;
     private Spinner spinner;
-    private TextView noInfo;
+    private TextView noInfo,finish;
     private ScrollView scrollView;
     private ProgressBar pg;
-    private int page = 0;
+    private int page = 1;
+    private Boolean is_done = false;
+    private Boolean isLoading = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +144,7 @@ public class AllBook extends AppCompatActivity {
         mlistview = (ListView)findViewById(R.id.booklist) ;
         scrollView = (ScrollView)findViewById(R.id.scrollView);
         pg = (ProgressBar)findViewById(R.id.pg);
+        finish = (TextView)findViewById(R.id.finish);
         mlistview.setDividerHeight(30);
         mListData.clear();      //先清空
         Intent intent =getIntent();
@@ -166,7 +169,7 @@ public class AllBook extends AppCompatActivity {
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     if (scrollView.getChildAt(0).getMeasuredHeight() <= scrollView.getHeight()+scrollView.getScrollY())
                     {
-                        System.out.println("我正在刷新");
+
                         pg.setVisibility(View.VISIBLE );
                     }
                 }
@@ -187,10 +190,12 @@ public class AllBook extends AppCompatActivity {
             @Override
             public void run()
             {
-                JSONArray result = NewService.getbook(preferences.getString("token",null),type);
-                if (result!=null) {
-                    for (int i = 0; i < result.length(); i++) {
-                        try {
+                JSONObject res = NewService.getbook(preferences.getString("token",null),type,page++);
+                try {
+                    JSONArray result = res.getJSONArray("book");
+                    is_done = res.getBoolean("is_done");
+                    if (result!=null) {
+                        for (int i = 0; i < result.length(); i++) {
                             JSONObject temp = (JSONObject) result.get(i);
                             HashMap map = new HashMap<String,Object>();
                             map.put("url",temp.getString("pic_url"));
@@ -203,22 +208,22 @@ public class AllBook extends AppCompatActivity {
                             map.put("name",temp.getString("seller_name"));
                             map.put("add_time",temp.get("add_time"));
                             mListData.add(map);
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                        Message msg = new Message();
+                        msg.what = 0;
+                        msg.obj = 1;
+                        handler.sendMessage(msg);
+                        System.out.println(result);
                     }
-                    Message msg = new Message();
-                    msg.what = 0;
-                    msg.obj = 1;
-                    handler.sendMessage(msg);
-                    System.out.println(result);
-                }
-                else {
-                    Message msg = new Message();
-                    msg.what = 0;
-                    msg.obj = 2;        //代表服务器失败
-                    handler.sendMessage(msg);
-                    System.out.println(result);
+                    else {
+                        Message msg = new Message();
+                        msg.what = 0;
+                        msg.obj = 2;        //代表服务器失败
+                        handler.sendMessage(msg);
+                        System.out.println(result);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

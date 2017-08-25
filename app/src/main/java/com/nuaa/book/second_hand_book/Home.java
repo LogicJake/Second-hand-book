@@ -194,11 +194,12 @@ public class Home extends Fragment {
             @Override
             public void run()
             {
-                JSONArray result = NewService.getbook(preferences.getString("token",null),0);
-                if (result!=null) {
-                    mListData.clear();
-                    for (int i = 0; i < result.length(); i++) {
-                        try {
+                JSONObject res = NewService.getbook(preferences.getString("token",null),0,1);
+                try {
+                    JSONArray result = res.getJSONArray("book");
+                    if (result!=null) {
+                        mListData.clear();
+                        for (int i = 0; i < result.length(); i++) {
                             JSONObject temp = (JSONObject) result.get(i);
                             HashMap map = new HashMap<String,Object>();
                             map.put("url",temp.getString("pic_url"));
@@ -211,23 +212,23 @@ public class Home extends Fragment {
                             map.put("name",temp.getString("seller_name"));
                             map.put("add_time",temp.get("add_time"));
                             mListData.add(map);
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                        Message msg = new Message();
+                        msg.what = 0;
+                        msg.obj = 1;
+                        handler.sendMessage(msg);
+                        System.out.println(result);
                     }
-                    Message msg = new Message();
-                    msg.what = 0;
-                    msg.obj = 1;
-                    handler.sendMessage(msg);
-                    System.out.println(result);
-                }
-                else {
-                    Message msg = new Message();
-                    msg.what = 0;
-                    msg.obj = 2;        //代表服务器失败
-                    handler.sendMessage(msg);
-                    System.out.println(result);
-                }
+                    else {
+                        Message msg = new Message();
+                        msg.what = 0;
+                        msg.obj = 2;        //代表服务器失败
+                        handler.sendMessage(msg);
+                        System.out.println(result);
+                    }
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
             }
         }).start();
     }
