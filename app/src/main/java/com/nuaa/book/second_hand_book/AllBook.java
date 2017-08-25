@@ -62,6 +62,7 @@ public class AllBook extends AppCompatActivity {
                                     return true;
                                 } else if (view.getId() == R.id.old_price) {
                                     TextView tv = (TextView) view;
+                                    tv.setText((String)data);
                                     tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                                     return true;
                                 } else if (view.getId() == R.id.quality) {
@@ -129,6 +130,7 @@ public class AllBook extends AppCompatActivity {
     private TextView noInfo;
     private ScrollView scrollView;
     private ProgressBar pg;
+    private int page = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
