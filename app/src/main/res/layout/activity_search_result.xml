@@ -56,7 +56,8 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="上拉加载更多"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

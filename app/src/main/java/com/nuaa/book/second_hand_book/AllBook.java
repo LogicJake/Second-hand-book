@@ -238,4 +238,9 @@ public class AllBook extends AppCompatActivity {
             }
         }).start();
     }
+
+    public  void checkEmpty(){          //判断listview是否溢出屏幕
+        if (scrollView.getScrollY() == 0)
+            finish.setVisibility(View.GONE);        //没有分屏就不显示了
+    }
 }

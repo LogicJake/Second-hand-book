@@ -6,9 +6,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -246,5 +248,10 @@ public class SearchResult extends AppCompatActivity {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight;
         listView.setLayoutParams(params);
+    }
+
+    public  void checkEmpty(){          //判断listview是否溢出屏幕
+        if (scrollView.getScrollY() != 0)
+            finish.setVisibility(View.VISIBLE);        //没有分屏就不显示了
     }
 }
