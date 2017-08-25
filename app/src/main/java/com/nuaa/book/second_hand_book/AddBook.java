@@ -67,7 +67,10 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 else if (res == 0)
                     Toast.makeText(AddBook.this, "上架失败", Toast.LENGTH_SHORT).show();
                 else if (res == 1)
+                {
                     Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         }
     };

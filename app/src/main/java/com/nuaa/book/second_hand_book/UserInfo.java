@@ -20,6 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
+import static com.nuaa.book.second_hand_book.LaunchScreen.options;
+import static com.nuaa.book.second_hand_book.NewService.avator_root;
 
 
 public class UserInfo extends Fragment {
@@ -51,6 +54,7 @@ public class UserInfo extends Fragment {
                         user_name.setText(preferences.getString("nick_name",null));
                         sell_num.setText("("+preferences.getString("sell_num","0")+")");
                         like_num.setText("("+preferences.getString("like_num","0")+")");
+                        imageLoader.displayImage( avator_root + preferences.getString("avator_url",null),avatar,options);
                         if (preferences.getString("sex",null).equals("0"))
                             sex.setImageResource(R.drawable.female);
                         else
