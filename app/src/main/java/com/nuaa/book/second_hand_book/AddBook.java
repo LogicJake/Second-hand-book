@@ -92,7 +92,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                         {
                             au = au + ',' + authors.getString(i).toString();
                         }else {
-                            au = au + authors.getString(i);
+                            au = authors.getString(i);
                         }
                         System.out.println(authors.getString(i));
                     }
