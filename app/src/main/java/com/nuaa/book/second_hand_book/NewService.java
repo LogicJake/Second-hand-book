@@ -255,8 +255,8 @@ public class NewService {
         return result;
     }
 
-    public static JSONArray getbook(String token,int type) {
-        JSONArray res = null;
+    public static JSONObject getbook(String token,int type,int page) {
+        JSONObject res = null;
         try {
             String path = rooturl+"index.php?_action=getBook&token="+token;;
             URL url = new URL(path);
@@ -267,7 +267,7 @@ public class NewService {
             // 设置请求的超时时间
             urlConnection.setReadTimeout(5000);
             urlConnection.setConnectTimeout(5000);
-            String data = "&type="+type;
+            String data = "&type="+type+"&page="+page;
             urlConnection.setRequestProperty("Content-Length", String.valueOf(data.getBytes().length));
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
             urlConnection.setDoOutput(true); // 发送POST请求必须设置允许输出
@@ -292,7 +292,7 @@ public class NewService {
                 is.close();
                 baos.close();
                 System.out.println(baos);
-                res = new JSONObject(baos.toString()).getJSONObject("data").getJSONArray("book");
+                res = new JSONObject(baos.toString()).getJSONObject("data");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -300,10 +300,10 @@ public class NewService {
         return res;
     }
 
-    public static JSONArray search(String token,String query){
-        JSONArray res = null;
+    public static JSONObject search(String token,String query,int page){
+        JSONObject res = null;
         try {
-            String path = rooturl+"index.php?_action=getSearch&token="+token+"&query="+URLEncoder.encode(query, "UTF-8");
+            String path = rooturl+"index.php?_action=getSearch&token="+token+"&query="+URLEncoder.encode(query, "UTF-8")+"&page="+page;
             URL url = new URL(path);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             // 设置请求的方式
@@ -329,7 +329,7 @@ public class NewService {
                 is.close();
                 baos.close();
                 System.out.println(baos.toString());
-                res = new JSONObject(baos.toString()).getJSONArray("data");
+                res = new JSONObject(baos.toString()).getJSONObject("data");
             }
         } catch (Exception e) {
             e.printStackTrace();

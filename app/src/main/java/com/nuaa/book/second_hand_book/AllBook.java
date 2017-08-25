@@ -117,6 +117,10 @@ public class AllBook extends AppCompatActivity {
                     else if (res == 2) {
                         Toast.makeText(AllBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
+                    pg.setVisibility(View.GONE);
+                    if (is_done)
+                        finish.setText("我也是有底线的");
+                    isLoading = false;
                     break;
             }
         }
@@ -127,10 +131,13 @@ public class AllBook extends AppCompatActivity {
     private SimpleAdapter mSchedule;
     private ListView mlistview;
     private Spinner spinner;
-    private TextView noInfo;
+    private TextView noInfo,finish;
     private ScrollView scrollView;
     private ProgressBar pg;
-    private int page = 0;
+    private int page = 1;
+    private Boolean is_done = false;
+    private Boolean isLoading = false;
+    private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,10 +149,11 @@ public class AllBook extends AppCompatActivity {
         mlistview = (ListView)findViewById(R.id.booklist) ;
         scrollView = (ScrollView)findViewById(R.id.scrollView);
         pg = (ProgressBar)findViewById(R.id.pg);
+        finish = (TextView)findViewById(R.id.finish);
         mlistview.setDividerHeight(30);
         mListData.clear();      //先清空
         Intent intent =getIntent();
-        int type = intent.getIntExtra("type",0);
+        type = intent.getIntExtra("type",0);
         spinner.setSelection(type);
         getData(type);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -153,7 +161,10 @@ public class AllBook extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
                 mListData.clear();
-                getData(position);
+                type = position;
+                page = 1;       //重新从第一页开始
+                getData(type);
+                finish.setText("上拉加载更多");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -163,11 +174,12 @@ public class AllBook extends AppCompatActivity {
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
+                if(!isLoading && !is_done && event.getAction() == MotionEvent.ACTION_UP){       //在加载中就不响应
                     if (scrollView.getChildAt(0).getMeasuredHeight() <= scrollView.getHeight()+scrollView.getScrollY())
                     {
-                        System.out.println("我正在刷新");
+                        isLoading = true;
                         pg.setVisibility(View.VISIBLE );
+                        getData(type);
                     }
                 }
                 return false;
@@ -187,10 +199,14 @@ public class AllBook extends AppCompatActivity {
             @Override
             public void run()
             {
-                JSONArray result = NewService.getbook(preferences.getString("token",null),type);
-                if (result!=null) {
-                    for (int i = 0; i < result.length(); i++) {
-                        try {
+                System.out.println(page);
+                JSONObject res = NewService.getbook(preferences.getString("token",null),type,page++);
+                if (res!=null) {
+                    try {
+                        JSONArray result = res.getJSONArray("book");
+                        is_done = res.getBoolean("is_done");
+
+                        for (int i = 0; i < result.length(); i++) {
                             JSONObject temp = (JSONObject) result.get(i);
                             HashMap map = new HashMap<String,Object>();
                             map.put("url",temp.getString("pic_url"));
@@ -203,22 +219,21 @@ public class AllBook extends AppCompatActivity {
                             map.put("name",temp.getString("seller_name"));
                             map.put("add_time",temp.get("add_time"));
                             mListData.add(map);
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                        Message msg = new Message();
+                        msg.what = 0;
+                        msg.obj = 1;
+                        handler.sendMessage(msg);
+                        System.out.println(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    Message msg = new Message();
-                    msg.what = 0;
-                    msg.obj = 1;
-                    handler.sendMessage(msg);
-                    System.out.println(result);
                 }
                 else {
                     Message msg = new Message();
                     msg.what = 0;
                     msg.obj = 2;        //代表服务器失败
                     handler.sendMessage(msg);
-                    System.out.println(result);
                 }
             }
         }).start();
