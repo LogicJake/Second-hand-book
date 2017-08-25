@@ -120,7 +120,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     JSONArray authors = result.getJSONArray("author");
                     String au = null;
                     publisher.setText(result.getString("publisher"));
-                    old_price.setText(result.getString("price"));
+                    old_price.setText(Integer.parseInt(result.getString("price")));
 
                     System.out.println("作者："+authors);
                     for(int i = 0 ;i<authors.length();i++)
@@ -267,6 +267,10 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 else if(text_now_price == null)
                 {
                     Toast.makeText(AddBook.this,"未填写出售价", Toast.LENGTH_SHORT).show();
+                }
+                else if(Integer.parseInt(text_old_price)<Integer.parseInt(text_now_price))
+                {
+                    Toast.makeText(AddBook.this,"售价不可高于原价", Toast.LENGTH_SHORT).show();
                 }
                 else if(text_num == null)
                 {
