@@ -63,11 +63,9 @@
             android:layout_width="fill_parent"
             android:id="@+id/finish"
             android:gravity="center"
-            android:layout_height="40dp"
-            android:background="@color/LightGrey"
-            android:text="我也是有底线的"
-            android:textSize="12dp"
-            android:visibility="gone"/>
+            android:layout_height="wrap_content"
+            android:text="上拉加载更多"
+            android:textSize="12dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

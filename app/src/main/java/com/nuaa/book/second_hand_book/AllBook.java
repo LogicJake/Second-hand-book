@@ -117,6 +117,10 @@ public class AllBook extends AppCompatActivity {
                     else if (res == 2) {
                         Toast.makeText(AllBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
+                    pg.setVisibility(View.GONE);
+                    if (is_done)
+                        finish.setText("我也是有底线的");
+                    isLoading = false;
                     break;
             }
         }
@@ -133,6 +137,7 @@ public class AllBook extends AppCompatActivity {
     private int page = 1;
     private Boolean is_done = false;
     private Boolean isLoading = false;
+    private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +153,7 @@ public class AllBook extends AppCompatActivity {
         mlistview.setDividerHeight(30);
         mListData.clear();      //先清空
         Intent intent =getIntent();
-        int type = intent.getIntExtra("type",0);
+        type = intent.getIntExtra("type",0);
         spinner.setSelection(type);
         getData(type);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -156,7 +161,10 @@ public class AllBook extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
                 mListData.clear();
-                getData(position);
+                type = position;
+                page = 1;       //重新从第一页开始
+                getData(type);
+                finish.setText("上拉加载更多");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -166,11 +174,12 @@ public class AllBook extends AppCompatActivity {
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
+                if(!isLoading && !is_done && event.getAction() == MotionEvent.ACTION_UP){       //在加载中就不响应
                     if (scrollView.getChildAt(0).getMeasuredHeight() <= scrollView.getHeight()+scrollView.getScrollY())
                     {
-
+                        isLoading = true;
                         pg.setVisibility(View.VISIBLE );
+                        getData(type);
                     }
                 }
                 return false;
@@ -190,11 +199,13 @@ public class AllBook extends AppCompatActivity {
             @Override
             public void run()
             {
+                System.out.println(page);
                 JSONObject res = NewService.getbook(preferences.getString("token",null),type,page++);
-                try {
-                    JSONArray result = res.getJSONArray("book");
-                    is_done = res.getBoolean("is_done");
-                    if (result!=null) {
+                if (res!=null) {
+                    try {
+                        JSONArray result = res.getJSONArray("book");
+                        is_done = res.getBoolean("is_done");
+
                         for (int i = 0; i < result.length(); i++) {
                             JSONObject temp = (JSONObject) result.get(i);
                             HashMap map = new HashMap<String,Object>();
@@ -214,16 +225,15 @@ public class AllBook extends AppCompatActivity {
                         msg.obj = 1;
                         handler.sendMessage(msg);
                         System.out.println(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = 2;        //代表服务器失败
-                        handler.sendMessage(msg);
-                        System.out.println(result);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }
+                else {
+                    Message msg = new Message();
+                    msg.what = 0;
+                    msg.obj = 2;        //代表服务器失败
+                    handler.sendMessage(msg);
                 }
             }
         }).start();

@@ -32,16 +32,31 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="1dp"
                 android:id="@+id/searchResult">
             </ListView>
+            <ProgressBar
+                android:id="@+id/pg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:id="@+id/finish"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="上拉加载更多"
+                android:textSize="12dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

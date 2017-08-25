@@ -195,9 +195,10 @@ public class Home extends Fragment {
             public void run()
             {
                 JSONObject res = NewService.getbook(preferences.getString("token",null),0,1);
-                try {
-                    JSONArray result = res.getJSONArray("book");
-                    if (result!=null) {
+                if (res!=null) {
+                    try {
+                        JSONArray result = res.getJSONArray("book");
+
                         mListData.clear();
                         for (int i = 0; i < result.length(); i++) {
                             JSONObject temp = (JSONObject) result.get(i);
@@ -218,17 +219,16 @@ public class Home extends Fragment {
                         msg.obj = 1;
                         handler.sendMessage(msg);
                         System.out.println(result);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = 2;        //代表服务器失败
-                        handler.sendMessage(msg);
-                        System.out.println(result);
-                    }
-                } catch (Exception e) {
-                e.printStackTrace();
-            }
+                }
+                else {
+                    Message msg = new Message();
+                    msg.what = 0;
+                    msg.obj = 2;        //代表服务器失败
+                    handler.sendMessage(msg);
+                }
             }
         }).start();
     }

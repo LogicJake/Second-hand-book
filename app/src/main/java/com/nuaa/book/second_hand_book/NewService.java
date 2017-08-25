@@ -299,10 +299,10 @@ public class NewService {
         return res;
     }
 
-    public static JSONArray search(String token,String query){
-        JSONArray res = null;
+    public static JSONObject search(String token,String query,int page){
+        JSONObject res = null;
         try {
-            String path = rooturl+"index.php?_action=getSearch&token="+token+"&query="+URLEncoder.encode(query, "UTF-8");
+            String path = rooturl+"index.php?_action=getSearch&token="+token+"&query="+URLEncoder.encode(query, "UTF-8")+"&page="+page;
             URL url = new URL(path);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             // 设置请求的方式
@@ -328,7 +328,7 @@ public class NewService {
                 is.close();
                 baos.close();
                 System.out.println(baos.toString());
-                res = new JSONObject(baos.toString()).getJSONArray("data");
+                res = new JSONObject(baos.toString()).getJSONObject("data");
             }
         } catch (Exception e) {
             e.printStackTrace();
