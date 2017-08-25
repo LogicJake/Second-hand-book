@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -68,10 +67,16 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             JSONObject result = (JSONObject) msg.obj;
-            if (result.has("code")){
+            if (result==null){
                 Toast.makeText(AddBook.this, R.string.no_book, Toast.LENGTH_SHORT).show();
+                System.out.println("has code:yes");
             }
             else{
+                if(result.has("code"))
+                {
+                    System.out.println("has code:yes "+result.has("code"));
+                }
+                System.out.println("has code:yes "+result.has("code"));
                 try {
                     System.out.println(result);
                     name.setText(result.getString("title"));
@@ -212,7 +217,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
      */
     public static final int REQUEST_CODE = 111;
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         /**
          * 处理二维码扫描结果
          */
@@ -225,7 +230,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     final String ISBN_num = bundle.getString(CodeUtils.RESULT_STRING);
-
+                    System.out.println("ISBN_NUM: "+ISBN_num);
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -233,12 +238,13 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                             Message msg = new Message();
                             msg.what = 0;
                             msg.obj = result;
+                            System.out.println("result: "+result);
                             ISBNhandler.sendMessage(msg);
                         }
                     });
                     thread.start();
                     ISBN.setText(ISBN_num);
-//                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "解析结果:" + ISBN_num, Toast.LENGTH_LONG).show();
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(AddBook.this, "解析二维码失败", Toast.LENGTH_LONG).show();
                 }

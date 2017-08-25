@@ -157,6 +157,25 @@ public class Setting extends AppCompatActivity {
                         name.setText(key);
                     }
                     break;
+                case 6:
+                    super.handleMessage(msg);
+                    result = (JSONObject) msg.obj;
+                    try {
+                        flag = result.getInt("status");
+                        key = result.getString("avator_url");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if(flag == 200) {
+                        Toast.makeText(Setting.this, R.string.modify_success, Toast.LENGTH_SHORT).show();
+                        editor.putString("avator_url",key);
+                        editor.commit();
+                        imageLoader.displayImage(avator_root+preferences.getString("avator_url",null),avator,options);
+                    }
+                    else {
+                        Toast.makeText(Setting.this, R.string.modify_fail, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
             }
         }
     };
@@ -494,7 +513,7 @@ public class Setting extends AppCompatActivity {
                     public void run() {
                         JSONObject res = NewService.avater(new File(filepath), preferences.getString("token", ""));
                         Message msg = new Message();
-                        msg.what = 5;
+                        msg.what = 6;
                         msg.obj = res;
                         handler.sendMessage(msg);
                     }
