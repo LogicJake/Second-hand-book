@@ -120,7 +120,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     JSONArray authors = result.getJSONArray("author");
                     String au = null;
                     publisher.setText(result.getString("publisher"));
-                    old_price.setText(Integer.parseInt(result.getString("price")));
+                    old_price.setText(result.getString("price"));
 
                     System.out.println("作者："+authors);
                     for(int i = 0 ;i<authors.length();i++)
