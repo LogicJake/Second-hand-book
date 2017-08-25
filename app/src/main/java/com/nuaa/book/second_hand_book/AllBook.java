@@ -7,12 +7,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ScrollingTabContainerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,6 +62,7 @@ public class AllBook extends AppCompatActivity {
                                     return true;
                                 } else if (view.getId() == R.id.old_price) {
                                     TextView tv = (TextView) view;
+                                    tv.setText((String)data);
                                     tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                                     return true;
                                 } else if (view.getId() == R.id.quality) {
@@ -123,7 +128,9 @@ public class AllBook extends AppCompatActivity {
     private ListView mlistview;
     private Spinner spinner;
     private TextView noInfo;
-    private Boolean isLoading = false;
+    private ScrollView scrollView;
+    private ProgressBar pg;
+    private int page = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +140,8 @@ public class AllBook extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.classify);
         noInfo = (TextView)findViewById(R.id.noInfo);
         mlistview = (ListView)findViewById(R.id.booklist) ;
+        scrollView = (ScrollView)findViewById(R.id.scrollView);
+        pg = (ProgressBar)findViewById(R.id.pg);
         mlistview.setDividerHeight(30);
         mListData.clear();      //先清空
         Intent intent =getIntent();
@@ -151,26 +160,19 @@ public class AllBook extends AppCompatActivity {
                 // TODO Auto-generated method stub
             }
         });
-        mlistview.setOnScrollListener(new AbsListView.OnScrollListener() {
-                                          @Override
-                                          public void onScrollStateChanged(AbsListView view, int scrollState) {
-                                              // 当不滚动时
-                                              if (scrollState == SCROLL_STATE_IDLE) {
-                                                  //判断是否滚动到底部
-                                                  System.out.println(view.getLastVisiblePosition()+","+(view.getCount() - 1));
-                                                  if (!isLoading && view.getLastVisiblePosition() == view.getCount() - 1) {
-                                                      isLoading = true;
-                                                      System.out.print("请求数据...");
-                                                      return;
-                                                  }
-                                              }
-                                          }
-
-                                          @Override
-                                          public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                                          }
-                                      });
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    if (scrollView.getChildAt(0).getMeasuredHeight() <= scrollView.getHeight()+scrollView.getScrollY())
+                    {
+                        System.out.println("我正在刷新");
+                        pg.setVisibility(View.VISIBLE );
+                    }
+                }
+                return false;
+            }
+        });
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
