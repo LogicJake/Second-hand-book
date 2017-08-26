@@ -270,7 +270,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 {
                     Toast.makeText(AddBook.this,"未填写出售价", Toast.LENGTH_SHORT).show();
                 }
-                else if(Integer.parseInt(text_old_price)<Integer.parseInt(text_now_price))
+                else if(Float.parseFloat(text_old_price)<Float.parseFloat(text_now_price))
                 {
                     Toast.makeText(AddBook.this,"售价不可高于原价", Toast.LENGTH_SHORT).show();
                 }
@@ -435,7 +435,6 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     });
                     thread.start();
                     ISBN.setText(ISBN_num);
-                    Toast.makeText(this, "解析结果:" + ISBN_num, Toast.LENGTH_LONG).show();
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(AddBook.this, "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
@@ -491,6 +490,7 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
         return java.util.regex.Pattern.matches("\\d+", s);
     }
     public boolean isDecimal(String s) {
+        System.out.println(java.util.regex.Pattern.matches("\\d+\\.*\\d+", s));
         return java.util.regex.Pattern.matches("\\d+\\.*\\d+", s);
     }
 }
