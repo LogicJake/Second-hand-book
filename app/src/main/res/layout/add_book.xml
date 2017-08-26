@@ -210,7 +210,7 @@
                         android:layout_marginLeft="5dp"
                         android:background="@null"
                         android:maxLines="1"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:selectAllOnFocus="true" />
                 </LinearLayout>
 
