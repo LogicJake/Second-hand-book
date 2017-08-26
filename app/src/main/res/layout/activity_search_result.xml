@@ -8,6 +8,7 @@
     tools:context="com.nuaa.book.second_hand_book.SearchResult">
 
     <LinearLayout
+        android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MainColor"
@@ -30,6 +31,15 @@
             android:iconifiedByDefault="false"
             android:queryHint="请输入书名/作者/ISBN"></SearchView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/noInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="没有搜索到相关信息"
+        android:visibility="gone"/>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -56,8 +66,7 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="上拉加载更多"
-                android:textSize="12dp"
-                android:visibility="gone"/>
+                android:textSize="12dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

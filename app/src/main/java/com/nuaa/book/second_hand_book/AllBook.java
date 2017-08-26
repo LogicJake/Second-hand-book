@@ -3,17 +3,21 @@ package com.nuaa.book.second_hand_book;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ScrollingTabContainerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -34,6 +38,7 @@ import static com.nuaa.book.second_hand_book.Home.stampTocal;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
 import static com.nuaa.book.second_hand_book.NewService.pic_root;
+import static com.nuaa.book.second_hand_book.SearchResult.ListviewHeight;
 import static com.nuaa.book.second_hand_book.SearchResult.setListViewHeightBasedOnChildren;
 
 public class AllBook extends AppCompatActivity {
@@ -112,6 +117,8 @@ public class AllBook extends AppCompatActivity {
                         });
                         mlistview.setAdapter(mSchedule);
                         setListViewHeightBasedOnChildren(mlistview);
+                        if (page == 2)
+                            checkEmpty();
                         mSchedule.notifyDataSetChanged();
                     }
                     else if (res == 2) {
@@ -134,6 +141,7 @@ public class AllBook extends AppCompatActivity {
     private TextView noInfo,finish;
     private ScrollView scrollView;
     private ProgressBar pg;
+    private LinearLayout test;
     private int page = 1;
     private Boolean is_done = false;
     private Boolean isLoading = false;
@@ -150,12 +158,13 @@ public class AllBook extends AppCompatActivity {
         scrollView = (ScrollView)findViewById(R.id.scrollView);
         pg = (ProgressBar)findViewById(R.id.pg);
         finish = (TextView)findViewById(R.id.finish);
+        test = (LinearLayout)findViewById(R.id.test);
         mlistview.setDividerHeight(30);
         mListData.clear();      //先清空
         Intent intent =getIntent();
         type = intent.getIntExtra("type",0);
         spinner.setSelection(type);
-        getData(type);
+        //getData(type);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -163,6 +172,7 @@ public class AllBook extends AppCompatActivity {
                 mListData.clear();
                 type = position;
                 page = 1;       //重新从第一页开始
+                finish.setVisibility(View.VISIBLE);
                 getData(type);
                 finish.setText("上拉加载更多");
             }
@@ -240,7 +250,13 @@ public class AllBook extends AppCompatActivity {
     }
 
     public  void checkEmpty(){          //判断listview是否溢出屏幕
-        if (scrollView.getScrollY() == 0)
-            finish.setVisibility(View.GONE);        //没有分屏就不显示了
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int height = metric.heightPixels;
+        test.measure(0,0);
+        if (test.getMeasuredHeight()+ListviewHeight(mlistview)<height){
+            finish.setVisibility(View.GONE);
+        }
     }
+
 }

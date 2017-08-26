@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -42,6 +43,10 @@ public class SearchResult extends AppCompatActivity {
                 case 0:
                     int res = (int)msg.obj;
                     if(res == 1){
+                        if (mListData.size() == 0)
+                            noInfo.setVisibility(View.VISIBLE);
+                        else
+                            noInfo.setVisibility(View.GONE);
                         mSchedule = new SimpleAdapter(SearchResult.this,
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
@@ -113,6 +118,9 @@ public class SearchResult extends AppCompatActivity {
                         });
                         mlistview.setAdapter(mSchedule);
                         setListViewHeightBasedOnChildren(mlistview);
+                        finish.setVisibility(View.VISIBLE);
+                        if (page == 2)
+                            checkEmpty();
                         mSchedule.notifyDataSetChanged();
                     }
                     else if (res == 2) {
@@ -134,7 +142,8 @@ public class SearchResult extends AppCompatActivity {
     private ListView mlistview;
     private ScrollView scrollView;
     private ProgressBar pg;
-    private TextView finish;
+    private TextView finish,noInfo;
+    private LinearLayout test;
     private int page = 1;
     private Boolean is_done = false;
     private Boolean isLoading = false;
@@ -150,6 +159,9 @@ public class SearchResult extends AppCompatActivity {
         pg = (ProgressBar)findViewById(R.id.pg);
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         backup = (ImageView)findViewById(R.id.backup);
+        test = (LinearLayout)findViewById(R.id.test) ;
+        noInfo = (TextView)findViewById(R.id.noInfo);
+        finish.setVisibility(View.GONE);
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,8 +262,27 @@ public class SearchResult extends AppCompatActivity {
         listView.setLayoutParams(params);
     }
 
+    public static int ListviewHeight(ListView listView){
+        ListAdapter listAdapter = listView.getAdapter(); //item的高度
+        if (listAdapter == null) {
+            return 0;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0); //计算子项View 的宽高 //统计所有子项的总高度
+            totalHeight += listItem.getMeasuredHeight()+listView.getDividerHeight();
+        }
+        return totalHeight;
+    }
+
     public  void checkEmpty(){          //判断listview是否溢出屏幕
-        if (scrollView.getScrollY() != 0)
-            finish.setVisibility(View.VISIBLE);        //没有分屏就不显示了
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int height = metric.heightPixels;
+        test.measure(0,0);
+        if (test.getMeasuredHeight()+ListviewHeight(mlistview)<height){
+            finish.setVisibility(View.GONE);
+        }
     }
 }

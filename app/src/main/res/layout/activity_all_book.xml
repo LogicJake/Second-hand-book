@@ -8,6 +8,7 @@
     tools:context="com.nuaa.book.second_hand_book.AddBook">
 
     <LinearLayout
+        android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MainColor"
@@ -60,7 +61,7 @@
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone" />
             <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:id="@+id/finish"
             android:gravity="center"
             android:layout_height="wrap_content"
