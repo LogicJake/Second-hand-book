@@ -69,11 +69,12 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 else if (res == 1)
                 {
                     Toast.makeText(AddBook.this, "上架成功", Toast.LENGTH_SHORT).show();
-                    finish();
+                    reset();
                 }
             }
         }
     };
+
     private Handler Coverhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -260,9 +261,10 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                 {
                     Toast.makeText(AddBook.this,"未填写出原始价格", Toast.LENGTH_SHORT).show();
                 }
-                else if(!isNumeric(text_old_price))
+                else if(!isDecimal(text_old_price))
                 {
-                    Toast.makeText(AddBook.this,"非纯数字", Toast.LENGTH_SHORT).show();
+                    System.out.println("isDecimal: "+isDecimal(text_old_price));
+                    Toast.makeText(AddBook.this,"原始价格非纯数字", Toast.LENGTH_SHORT).show();
                 }
                 else if(text_now_price == null)
                 {
@@ -321,7 +323,18 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
             }
         });
     }
-
+    public void reset()
+    {
+        ISBN.setText(null);
+        name.setText(null);
+        author.setText(null);
+        publisher.setText(null);
+        old_price.setText(null);
+        now_price.setText(null);
+        num.setText(null);
+        remark.setText(null);
+        cover.setImageResource(R.drawable.addcover);
+    }
     private View.OnClickListener itemsOnClick = new View.OnClickListener(){
 
         public void onClick(View v) {
@@ -476,5 +489,8 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
 
     public boolean isNumeric(String s) {
         return java.util.regex.Pattern.matches("\\d+", s);
+    }
+    public boolean isDecimal(String s) {
+        return java.util.regex.Pattern.matches("\\d+\\.*\\d+", s);
     }
 }
