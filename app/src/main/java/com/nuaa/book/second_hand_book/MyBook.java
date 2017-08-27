@@ -1,20 +1,19 @@
 package com.nuaa.book.second_hand_book;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.liaoinstan.springview.container.DefaultFooter;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -27,6 +26,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER_HORIZONTAL;
 import static com.nuaa.book.second_hand_book.Home.stampTocal;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
@@ -130,6 +131,7 @@ public class MyBook extends AppCompatActivity {
     private Boolean is_done = false;
     private int type = -1;          //获取自己的上架书籍
     private SpringView sv;
+    SelectBookPopWindow menuWindow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +150,14 @@ public class MyBook extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                menuWindow = new SelectBookPopWindow(MyBook.this, itemsOnClick);
+                //显示窗口
+                menuWindow.showAtLocation(MyBook.this.findViewById(R.id.title), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
         sv.setListener(new SpringView.OnFreshListener() {
@@ -169,6 +179,25 @@ public class MyBook extends AppCompatActivity {
             }
         });
     }
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.btn_watch:
+                    Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.btn_modify:
+                    Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.btn_delete:
+                    Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public void getData(final int type){
         new Thread(new Runnable(){

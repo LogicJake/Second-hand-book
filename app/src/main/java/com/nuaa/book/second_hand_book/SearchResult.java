@@ -2,21 +2,15 @@ package com.nuaa.book.second_hand_book;
 
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -37,7 +31,6 @@ import java.util.List;
 import static com.nuaa.book.second_hand_book.Home.stampTocal;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
-import static com.nuaa.book.second_hand_book.NewService.pic_root;
 
 public class SearchResult extends AppCompatActivity {
     private Handler handler = new Handler() {
@@ -263,20 +256,6 @@ public class SearchResult extends AppCompatActivity {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight;
         listView.setLayoutParams(params);
-    }
-
-    public static int ListviewHeight(ListView listView){
-        ListAdapter listAdapter = listView.getAdapter(); //item的高度
-        if (listAdapter == null) {
-            return 0;
-        }
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0); //计算子项View 的宽高 //统计所有子项的总高度
-            totalHeight += listItem.getMeasuredHeight()+listView.getDividerHeight();
-        }
-        return totalHeight;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.nuaa.book.second_hand_book;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
