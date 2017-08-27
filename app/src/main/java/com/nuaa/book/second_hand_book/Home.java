@@ -34,7 +34,6 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
-import static com.nuaa.book.second_hand_book.NewService.pic_root;
 import static com.nuaa.book.second_hand_book.SearchResult.setListViewHeightBasedOnChildren;
 
 public class Home extends Fragment {
@@ -187,6 +186,7 @@ public class Home extends Fragment {
         cs.setOnClickListener(new MyOnClickListener(cs.getId()));
         Medical.setOnClickListener(new MyOnClickListener(Medical.getId()));
         return view;
+
     }
 
     public void getData(){

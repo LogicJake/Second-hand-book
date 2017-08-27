@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/female" />
+                android:src="@drawable/female"/>
 
             <TextView
                 android:id="@+id/seller_name"
@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="admin" />
+                android:text="admin"/>
 
             <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
@@ -51,7 +51,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.001dp"
-            android:background="@color/Gainsboro" />
+            android:background="@color/Gainsboro"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:src="@drawable/default_book" />
+                android:src="@drawable/default_book"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <TextView
                     android:id="@+id/author"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:textColor="#C0C0C0"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                         android:layout_weight="2"
                         android:text="￥ 25.00"
                         android:textColor="#00C7B4"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"/>
 
                     <TextView
                         android:id="@+id/old_price"
@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="8"
                         android:textColor="@color/LightGrey"
-                        android:textSize="15dp" />
+                        android:textSize="15dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -128,7 +128,7 @@
                         android:layout_height="18dp"
                         android:layout_gravity="center"
                         android:layout_weight="0"
-                        android:src="@drawable/date" />
+                        android:src="@drawable/date"/>
 
                     <TextView
                         android:id="@+id/time"
@@ -138,14 +138,14 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
                         android:layout_weight="0"
-                        android:src="@drawable/quality" />
+                        android:src="@drawable/quality"/>
 
                     <TextView
                         android:id="@+id/quality"
@@ -156,7 +156,7 @@
                         android:layout_weight="1"
                         android:gravity="left|center"
                         android:text="九成新"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

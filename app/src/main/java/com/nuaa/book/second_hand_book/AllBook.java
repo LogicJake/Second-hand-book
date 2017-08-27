@@ -3,24 +3,14 @@ package com.nuaa.book.second_hand_book;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.ScrollingTabContainerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,8 +31,6 @@ import java.util.List;
 import static com.nuaa.book.second_hand_book.Home.stampTocal;
 import static com.nuaa.book.second_hand_book.LaunchScreen.imageLoader;
 import static com.nuaa.book.second_hand_book.LaunchScreen.options;
-import static com.nuaa.book.second_hand_book.NewService.pic_root;
-import static com.nuaa.book.second_hand_book.SearchResult.ListviewHeight;
 import static com.nuaa.book.second_hand_book.SearchResult.setListViewHeightBasedOnChildren;
 
 public class AllBook extends AppCompatActivity {
@@ -132,6 +120,7 @@ public class AllBook extends AppCompatActivity {
         }
     };
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private ImageView backup;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mSchedule;
@@ -147,6 +136,7 @@ public class AllBook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_book);
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);       //先声明再使用
+        editor = preferences.edit();
         backup = (ImageView) findViewById(R.id.backup);
         spinner = (Spinner)findViewById(R.id.classify);
         noInfo = (TextView)findViewById(R.id.noInfo);
@@ -158,6 +148,13 @@ public class AllBook extends AppCompatActivity {
         mlistview.setDividerHeight(30);
         Intent intent =getIntent();
         type = intent.getIntExtra("type",0);
+        mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView)view.findViewById(R.id.book_name);
+                Toast.makeText(AllBook.this, tv.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
         spinner.setSelection(type);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
