@@ -64,7 +64,7 @@ public class UserInfo extends Fragment {
             }
         }
     };
-    private LinearLayout setting;
+    private LinearLayout setting,book_more;
     private TextView user_name,sell_num,like_num;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -76,6 +76,7 @@ public class UserInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_user_info,container,false);
         setting = (LinearLayout)view.findViewById(R.id.setting);
+        book_more = (LinearLayout)view.findViewById(R.id.book_more);
         user_name = (TextView)view.findViewById(R.id.name);
         sell_num = (TextView) view.findViewById(R.id.sell_num);
         like_num = (TextView) view.findViewById(R.id.like_num);
@@ -100,6 +101,13 @@ public class UserInfo extends Fragment {
                 transaction.detach(fg);
                 transaction.attach(fg);
                 transaction.commit();
+            }
+        });
+        book_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), MyBook.class);
+                startActivity(intent);
             }
         });
         return view;
