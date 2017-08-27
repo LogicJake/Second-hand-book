@@ -258,23 +258,15 @@ public class NewService {
     public static JSONObject getbook(String token,int type,int page) {
         JSONObject res = null;
         try {
-            String path = rooturl+"index.php?_action=getBook&token="+token;;
+            String path = rooturl+"index.php?_action=getBook&token="+token+"&type="+type+"&page="+page;;
             URL url = new URL(path);
-            // 获得连接
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             // 设置请求的方式
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("GET");
             // 设置请求的超时时间
             urlConnection.setReadTimeout(5000);
             urlConnection.setConnectTimeout(5000);
-            String data = "&type="+type+"&page="+page;
-            urlConnection.setRequestProperty("Content-Length", String.valueOf(data.getBytes().length));
-            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            urlConnection.setDoOutput(true); // 发送POST请求必须设置允许输出
-            urlConnection.setDoInput(true); // 发送POST请求必须设置允许输入
-            OutputStream os = urlConnection.getOutputStream();
-            os.write(data.getBytes());
-            os.flush();
+            urlConnection.connect();
             if (urlConnection.getResponseCode() == 200) {
                 // 获取响应的输入流对象
                 InputStream is = urlConnection.getInputStream();
