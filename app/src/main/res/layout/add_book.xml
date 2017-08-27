@@ -8,11 +8,13 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context="com.nuaa.book.second_hand_book.AddBook">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MainColor"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/backup"
             android:layout_width="30dp"
@@ -20,6 +22,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:src="@drawable/backup" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
