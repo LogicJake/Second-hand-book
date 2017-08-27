@@ -1,0 +1,16 @@
+<com.liaoinstan.springview.widget.SpringView
+    android:id="@+id/sv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/booklist">
+        </ListView>
+    </ScrollView>
+</com.liaoinstan.springview.widget.SpringView>
