@@ -22,6 +22,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.liaoinstan.springview.container.DefaultFooter;
+import com.liaoinstan.springview.container.DefaultHeader;
+import com.liaoinstan.springview.widget.SpringView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -118,18 +122,12 @@ public class SearchResult extends AppCompatActivity {
                         });
                         mlistview.setAdapter(mSchedule);
                         setListViewHeightBasedOnChildren(mlistview);
-                        finish.setVisibility(View.VISIBLE);
-                        if (page == 2)
-                            checkEmpty();
                         mSchedule.notifyDataSetChanged();
                     }
                     else if (res == 2) {
                         Toast.makeText(SearchResult.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                     }
-                    pg.setVisibility(View.GONE);
-                    if (is_done)
-                        finish.setText("我也是有底线的");
-                    isLoading = false;
+                    sv.onFinishFreshAndLoad();
                     break;
             }
         }
@@ -140,28 +138,25 @@ public class SearchResult extends AppCompatActivity {
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mSchedule;
     private ListView mlistview;
-    private ScrollView scrollView;
-    private ProgressBar pg;
-    private TextView finish,noInfo;
-    private LinearLayout test;
+    private TextView noInfo;
     private int page = 1;
     private Boolean is_done = false;
-    private Boolean isLoading = false;
+    private SpringView sv;
     private String global_query;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
         searchView = (SearchView)findViewById(R.id.searchView);
         mlistview = (ListView)findViewById(R.id.searchResult);
-        scrollView = (ScrollView)findViewById(R.id.scrollView);
-        finish = (TextView)findViewById(R.id.finish);
-        pg = (ProgressBar)findViewById(R.id.pg);
+        sv = (SpringView) findViewById(R.id.sv);//sv
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         backup = (ImageView)findViewById(R.id.backup);
-        test = (LinearLayout)findViewById(R.id.test) ;
         noInfo = (TextView)findViewById(R.id.noInfo);
-        finish.setVisibility(View.GONE);
+        sv.setType(SpringView.Type.FOLLOW);
+        sv.setHeader(new DefaultHeader(this));
+        sv.setFooter(new DefaultFooter(this));
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +173,6 @@ public class SearchResult extends AppCompatActivity {
                 global_query = query;
                 page = 1;       //重新从第一页开始
                 getData(global_query);
-                finish.setText("上拉加载更多");
                 return false;
             }
             // 当搜索内容改变时触发该方法
@@ -187,62 +181,71 @@ public class SearchResult extends AppCompatActivity {
                 return false;
             }
         });
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        sv.setListener(new SpringView.OnFreshListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(!isLoading && !is_done && event.getAction() == MotionEvent.ACTION_UP){       //在加载中就不响应
-                    if (scrollView.getChildAt(0).getMeasuredHeight() <= scrollView.getHeight()+scrollView.getScrollY())
-                    {
-                        isLoading = true;
-                        pg.setVisibility(View.VISIBLE );
-                        getData(global_query);
-                    }
+            public void onRefresh() {
+                mListData.clear();
+                page = 1;       //重新从第一页开始
+                getData(global_query);
+            }
+
+            @Override
+            public void onLoadmore() {
+                if(!is_done)
+                    getData(global_query);
+                else {
+                    Toast.makeText(SearchResult.this, "没有更多内容了", Toast.LENGTH_SHORT).show();
+                    sv.onFinishFreshAndLoad();
                 }
-                return false;
             }
         });
     }
 
     public void getData(final String query) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONObject res = NewService.search(preferences.getString("token",null),query,page++);
-                if (res!=null) {
-                    try {
-                        JSONArray result = res.getJSONArray("book");
-                        is_done = res.getBoolean("is_done");
-                        for (int i = 0; i < result.length(); i++) {
-                            JSONObject temp = (JSONObject) result.get(i);
-                            HashMap map = new HashMap<String, Object>();
-                            map.put("url", temp.getString("pic_url"));
-                            map.put("bookname", temp.getString("name"));
-                            map.put("oldprice", "￥" + temp.getString("old_price"));
-                            map.put("nowprice", "￥" + temp.getString("now_price"));
-                            map.put("author", temp.getString("author") + " | " + temp.getString("publisher"));
-                            map.put("quality", temp.getString("quality"));
-                            map.put("sex", temp.getString("seller_sex"));
-                            map.put("name", temp.getString("seller_name"));
-                            map.put("add_time", temp.get("add_time"));
-                            mListData.add(map);
+        if (query == null || query.length() == 0) {
+            Toast.makeText(SearchResult.this, "搜索内容不能为空", Toast.LENGTH_SHORT).show();
+            sv.onFinishFreshAndLoad();
+        }
+        else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject res = NewService.search(preferences.getString("token", null), query, page++);
+                    if (res != null) {
+                        try {
+                            JSONArray result = res.getJSONArray("book");
+                            is_done = res.getBoolean("is_done");
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject temp = (JSONObject) result.get(i);
+                                HashMap map = new HashMap<String, Object>();
+                                map.put("url", temp.getString("pic_url"));
+                                map.put("bookname", temp.getString("name"));
+                                map.put("oldprice", "￥" + temp.getString("old_price"));
+                                map.put("nowprice", "￥" + temp.getString("now_price"));
+                                map.put("author", temp.getString("author") + " | " + temp.getString("publisher"));
+                                map.put("quality", temp.getString("quality"));
+                                map.put("sex", temp.getString("seller_sex"));
+                                map.put("name", temp.getString("seller_name"));
+                                map.put("add_time", temp.get("add_time"));
+                                mListData.add(map);
+                            }
+                            Message msg = new Message();
+                            msg.what = 0;
+                            msg.obj = 1;
+                            handler.sendMessage(msg);
+                            System.out.println(result);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                    } else {
                         Message msg = new Message();
                         msg.what = 0;
-                        msg.obj = 1;
+                        msg.obj = 2;        //代表服务器失败
                         handler.sendMessage(msg);
-                        System.out.println(result);
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
-                else {
-                    Message msg = new Message();
-                    msg.what = 0;
-                    msg.obj = 2;        //代表服务器失败
-                    handler.sendMessage(msg);
-                }
-            }
-        }).start();
+            }).start();
+        }
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -276,13 +279,4 @@ public class SearchResult extends AppCompatActivity {
         return totalHeight;
     }
 
-    public  void checkEmpty(){          //判断listview是否溢出屏幕
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int height = metric.heightPixels;
-        test.measure(0,0);
-        if (test.getMeasuredHeight()+ListviewHeight(mlistview)<height){
-            finish.setVisibility(View.GONE);
-        }
-    }
 }

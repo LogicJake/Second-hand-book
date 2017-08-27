@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.nuaa.book.second_hand_book.SearchResult">
-
+    android:orientation="vertical">
     <LinearLayout
         android:id="@+id/test"
         android:layout_width="match_parent"
@@ -31,42 +28,46 @@
             android:iconifiedByDefault="false"
             android:queryHint="请输入书名/作者/ISBN"></SearchView>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/noInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="没有搜索到相关信息"
-        android:visibility="gone"/>
-
-    <ScrollView
-        android:id="@+id/scrollView"
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ListView
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/searchResult">
-            </ListView>
-            <ProgressBar
-                android:id="@+id/pg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:id="@+id/finish"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="上拉加载更多"
-                android:textSize="12dp" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/searchResult">
+                </ListView>
+                <!--<ProgressBar-->
+                <!--android:id="@+id/pg"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:visibility="gone" />-->
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:id="@+id/finish"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="上拉加载更多"-->
+                <!--android:textSize="12dp" />-->
+                <TextView
+                    android:id="@+id/noInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="没有搜索到相关信息"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </ScrollView>
+    </com.liaoinstan.springview.widget.SpringView>
 </LinearLayout>

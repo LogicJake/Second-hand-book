@@ -26,6 +26,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.liaoinstan.springview.container.DefaultFooter;
+import com.liaoinstan.springview.container.DefaultHeader;
+import com.liaoinstan.springview.widget.SpringView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -117,17 +121,12 @@ public class AllBook extends AppCompatActivity {
                         });
                         mlistview.setAdapter(mSchedule);
                         setListViewHeightBasedOnChildren(mlistview);
-                        if (page == 2)
-                            checkEmpty();
                         mSchedule.notifyDataSetChanged();
                     }
                     else if (res == 2) {
                         Toast.makeText(AllBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
-                    pg.setVisibility(View.GONE);
-                    if (is_done)
-                        finish.setText("我也是有底线的");
-                    isLoading = false;
+                    sv.onFinishFreshAndLoad();
                     break;
             }
         }
@@ -138,14 +137,11 @@ public class AllBook extends AppCompatActivity {
     private SimpleAdapter mSchedule;
     private ListView mlistview;
     private Spinner spinner;
-    private TextView noInfo,finish;
-    private ScrollView scrollView;
-    private ProgressBar pg;
-    private LinearLayout test;
+    private TextView noInfo;
     private int page = 1;
     private Boolean is_done = false;
-    private Boolean isLoading = false;
     private int type;
+    private SpringView sv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,44 +151,25 @@ public class AllBook extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.classify);
         noInfo = (TextView)findViewById(R.id.noInfo);
         mlistview = (ListView)findViewById(R.id.booklist) ;
-        scrollView = (ScrollView)findViewById(R.id.scrollView);
-        pg = (ProgressBar)findViewById(R.id.pg);
-        finish = (TextView)findViewById(R.id.finish);
-        test = (LinearLayout)findViewById(R.id.test);
+        sv = (SpringView) findViewById(R.id.sv);//sv
+        sv.setType(SpringView.Type.FOLLOW);
+        sv.setHeader(new DefaultHeader(this));
+        sv.setFooter(new DefaultFooter(this));
         mlistview.setDividerHeight(30);
-        mListData.clear();      //先清空
         Intent intent =getIntent();
         type = intent.getIntExtra("type",0);
         spinner.setSelection(type);
-        //getData(type);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
                 mListData.clear();
                 type = position;
                 page = 1;       //重新从第一页开始
-                finish.setVisibility(View.VISIBLE);
                 getData(type);
-                finish.setText("上拉加载更多");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
-            }
-        });
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(!isLoading && !is_done && event.getAction() == MotionEvent.ACTION_UP){       //在加载中就不响应
-                    if (scrollView.getChildAt(0).getMeasuredHeight() <= scrollView.getHeight()+scrollView.getScrollY())
-                    {
-                        isLoading = true;
-                        pg.setVisibility(View.VISIBLE );
-                        getData(type);
-                    }
-                }
-                return false;
             }
         });
         backup.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +178,24 @@ public class AllBook extends AppCompatActivity {
                 finish();
             }
         });
+        sv.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                mListData.clear();
+                page = 1;       //重新从第一页开始
+                getData(type);
+            }
 
+            @Override
+            public void onLoadmore() {
+                if(!is_done)
+                    getData(type);
+                else {
+                    Toast.makeText(AllBook.this, "没有更多内容了", Toast.LENGTH_SHORT).show();
+                    sv.onFinishFreshAndLoad();
+                }
+            }
+        });
     }
 
     public void getData(final int type){
@@ -247,16 +241,6 @@ public class AllBook extends AppCompatActivity {
                 }
             }
         }).start();
-    }
-
-    public  void checkEmpty(){          //判断listview是否溢出屏幕
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int height = metric.heightPixels;
-        test.measure(0,0);
-        if (test.getMeasuredHeight()+ListviewHeight(mlistview)<height){
-            finish.setVisibility(View.GONE);
-        }
     }
 
 }
