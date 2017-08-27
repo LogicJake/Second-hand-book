@@ -1,6 +1,5 @@
 package com.nuaa.book.second_hand_book;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -258,7 +257,7 @@ public class NewService {
     public static JSONObject getbook(String token,int type,int page) {
         JSONObject res = null;
         try {
-            String path = rooturl+"index.php?_action=getBook&token="+token;;
+            String path = rooturl+"index.php?_action=getBook&token="+token+"&type="+type+"&page="+page;
             URL url = new URL(path);
             // 获得连接
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
