@@ -17,7 +17,12 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/book_id"
+                android:visibility="invisible"
+                />
             <ImageView
                 android:id="@+id/sex"
                 android:layout_width="20dp"

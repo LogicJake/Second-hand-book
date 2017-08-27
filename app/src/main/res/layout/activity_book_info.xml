@@ -19,14 +19,15 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:src="@drawable/backup" />
+
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="出售详情"
-            android:textSize="24dp"
             android:layout_gravity="center"
             android:gravity="center"
-            />
+            android:text="出售详情"
+            android:textSize="24dp"/>
 
     </LinearLayout>
 
@@ -44,13 +45,15 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="285dp">
+                android:layout_height="285dp"
+                android:padding="15dp"
+                >
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/book_url"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/default_book" />
+                    android:src="@drawable/default_book"/>
             </LinearLayout>
 
             <LinearLayout
@@ -68,12 +71,23 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/book_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="10"
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="书名"
+                        android:textSize="18dp"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:gravity="left"
+                        android:text="new_price"
+                        android:id="@+id/now_price"
                         android:textSize="18dp" />
 
                     <TextView
@@ -82,14 +96,8 @@
                         android:layout_weight="5"
                         android:gravity="left"
                         android:text="old_price"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="5"
-                        android:gravity="left"
-                        android:text="now_price"
+                        android:id="@+id/old_price"
+                        android:textColor="@color/LightGrey"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -103,6 +111,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="ISBN码"
+                        android:id="@+id/ISBN"
                         android:textSize="14dp" />
                 </LinearLayout>
 
@@ -111,7 +120,7 @@
                     android:layout_height="35dp">
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/author_publisher"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -139,13 +148,13 @@
                             android:src="@drawable/date" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/time"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:text="time"
-                            android:textSize="16dp" />
+                            android:textSize="16dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -165,13 +174,13 @@
                             android:src="@drawable/quality" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/quality"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:text="九成新"
-                            android:textSize="16dp" />
+                            android:textSize="16dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -189,13 +198,15 @@
                             android:layout_gravity="center"
                             android:layout_weight="0"
                             android:src="@drawable/book_count" />
+
                         <TextView
+                            android:id="@+id/num"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:text="time"
-                            android:textSize="16dp" />
+                            android:textSize="16dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -220,6 +231,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
                     android:text="请勿用二手交易担保交易之外的交易方式"
                     android:gravity="center_vertical"
                     />
@@ -233,25 +245,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:orientation="horizontal"
+                android:paddingLeft="10dp"
                 >
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="85"
                     >
 
-                    <ImageView
-                        android:id="@+id/imageView2"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/default_book"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:gravity="right">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/avator"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/sym_def_app_icon" />
+                    </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="350"
+                    android:layout_weight="300"
+                    android:paddingLeft="10dp"
                     android:orientation="vertical"
                     >
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -265,38 +289,43 @@
                             android:layout_weight="180"
                             android:orientation="vertical"
                             >
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="5"
                                 >
+
                                 <ImageView
                                     android:id="@+id/sex"
                                     android:layout_width="25dp"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/male"/>
+
                                 <TextView
-                                    android:id="@+id/name"
+                                    android:id="@+id/seller_name"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center_vertical"
-                                    android:textSize="16dp"
-                                    android:text="user_name"
-
                                     android:paddingLeft="5dp"
+                                    android:text="seller_name"
+
+                                    android:textSize="16dp"
                                     />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="5"
                                 >
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:gravity="center_vertical"
                                     android:text="南京航空航天大学"
                                     android:textSize="16dp"
-                                    android:gravity="center_vertical"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -307,31 +336,35 @@
                             android:layout_weight="65"
                             android:orientation="vertical"
                             >
+
                             <TextView
+                                android:id="@+id/sell_num"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
+                                android:gravity="center_vertical"
                                 android:text="sellnum"
-                                android:gravity="center_vertical"
                                 />
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:text="出售"
                                 android:gravity="center_vertical"
+                                android:text="出售"
                                 />
                         </LinearLayout>
 
-
-
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="58"
                         >
+
                         <TextView
+                            android:id="@+id/remark"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="remark"
@@ -343,21 +376,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="收藏"
-            />
-    </LinearLayout>
+
 </LinearLayout>

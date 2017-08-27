@@ -58,6 +58,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AllBook" />
         <activity android:name=".MyBook"></activity>
+        <activity android:name=".Bookinfo"></activity>
     </application>
 
 </manifest>
