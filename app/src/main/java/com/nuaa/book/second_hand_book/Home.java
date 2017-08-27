@@ -186,6 +186,7 @@ public class Home extends Fragment {
         cs.setOnClickListener(new MyOnClickListener(cs.getId()));
         Medical.setOnClickListener(new MyOnClickListener(Medical.getId()));
         return view;
+
     }
 
     public void getData(){

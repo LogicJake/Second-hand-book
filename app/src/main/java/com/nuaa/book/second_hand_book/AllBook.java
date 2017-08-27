@@ -50,8 +50,8 @@ public class AllBook extends AppCompatActivity {
                         mSchedule = new SimpleAdapter(AllBook.this,
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
-                                new String[]{"name", "url", "bookname", "oldprice", "author", "nowprice", "quality", "sex", "add_time"},
-                                new int[]{R.id.seller_name, R.id.book_pic, R.id.book_name, R.id.old_price, R.id.author, R.id.now_price, R.id.quality, R.id.sex, R.id.time});
+                                new String[]{"name", "url", "bookname", "oldprice", "author", "nowprice", "quality", "sex", "add_time","book_id"},
+                                new int[]{R.id.seller_name, R.id.book_pic, R.id.book_name, R.id.old_price, R.id.author, R.id.now_price, R.id.quality, R.id.sex, R.id.time,R.id.book_id});
                         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
                             @Override
                             public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -122,6 +122,7 @@ public class AllBook extends AppCompatActivity {
         }
     };
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private ImageView backup;
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mSchedule;
@@ -139,6 +140,7 @@ public class AllBook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_book);
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);       //先声明再使用
+        editor = preferences.edit();
         backup = (ImageView) findViewById(R.id.backup);
         spinner = (Spinner)findViewById(R.id.classify);
         noInfo = (TextView)findViewById(R.id.noInfo);
@@ -152,6 +154,18 @@ public class AllBook extends AppCompatActivity {
         mlistview.setDividerHeight(30);
         Intent intent =getIntent();
         type = intent.getIntExtra("type",0);
+        mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView)view.findViewById(R.id.book_id);
+                editor.putString("bookinfo_id",tv.getText().toString());
+                editor.commit();
+                Intent intent = new Intent(AllBook.this, Bookinfo.class);
+                startActivity(intent);
+                finish();
+//                Toast.makeText(AllBook.this, tv.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
         spinner.setSelection(type);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -244,6 +258,7 @@ public class AllBook extends AppCompatActivity {
                             map.put("sex",temp.getString("seller_sex"));
                             map.put("name",temp.getString("seller_name"));
                             map.put("add_time",temp.get("add_time"));
+                            map.put("book_id",temp.getString("id"));
                             mListData.add(map);
                         }
                         Message msg = new Message();
