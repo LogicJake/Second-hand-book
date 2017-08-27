@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -130,6 +132,8 @@ public class AllBook extends AppCompatActivity {
     private Boolean is_done = false;
     private int type;
     private SpringView sv;
+    private ScrollView scrollView;
+    private ImageView up;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +144,8 @@ public class AllBook extends AppCompatActivity {
         noInfo = (TextView)findViewById(R.id.noInfo);
         mlistview = (ListView)findViewById(R.id.booklist) ;
         sv = (SpringView) findViewById(R.id.sv);//sv
+        scrollView = (ScrollView)findViewById(R.id.scrollView);
+        up = (ImageView)findViewById(R.id.up);
         sv.setType(SpringView.Type.FOLLOW);
         sv.setHeader(new DefaultHeader(this));
         sv.setFooter(new DefaultFooter(this));
@@ -154,10 +160,38 @@ public class AllBook extends AppCompatActivity {
                 type = position;
                 page = 1;       //重新从第一页开始
                 getData(type);
+//                scrollView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+//                        up.setVisibility(View.GONE);
+//                    }
+//                });
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
+            }
+        });
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                System.out.println(scrollView.getScrollY());
+                if (event.getAction() == MotionEvent.ACTION_UP && scrollView.getScrollY() > 0)
+                    up.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                        up.setVisibility(View.GONE);
+                    }
+                });
             }
         });
         backup.setOnClickListener(new View.OnClickListener() {

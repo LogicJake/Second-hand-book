@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -136,6 +138,8 @@ public class SearchResult extends AppCompatActivity {
     private Boolean is_done = false;
     private SpringView sv;
     private String global_query;
+    private ScrollView scrollView;
+    private ImageView up;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +151,8 @@ public class SearchResult extends AppCompatActivity {
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         backup = (ImageView)findViewById(R.id.backup);
         noInfo = (TextView)findViewById(R.id.noInfo);
+        up = (ImageView)findViewById(R.id.up);
+        scrollView = (ScrollView)findViewById(R.id.scrollView) ;
         sv.setType(SpringView.Type.FOLLOW);
         sv.setHeader(new DefaultHeader(this));
         sv.setFooter(new DefaultFooter(this));
@@ -172,6 +178,27 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                System.out.println(scrollView.getScrollY());
+                if (event.getAction() == MotionEvent.ACTION_UP && scrollView.getScrollY() > 0)
+                    up.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                        up.setVisibility(View.GONE);
+                    }
+                });
             }
         });
         sv.setListener(new SpringView.OnFreshListener() {

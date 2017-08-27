@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/test"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/MainColor"
@@ -32,6 +32,7 @@
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
         xmlns:android="http://schemas.android.com/apk/res/android">
         <ScrollView
             android:id="@+id/scrollView"
@@ -70,4 +71,15 @@
             </LinearLayout>
         </ScrollView>
     </com.liaoinstan.springview.widget.SpringView>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/up"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:src="@drawable/up" />
+</RelativeLayout>

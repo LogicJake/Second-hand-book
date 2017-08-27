@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -132,6 +134,8 @@ public class MyBook extends AppCompatActivity {
     private int type = -1;          //获取自己的上架书籍
     private SpringView sv;
     SelectBookPopWindow menuWindow;
+    private ImageView up;
+    private ScrollView scrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,8 +143,10 @@ public class MyBook extends AppCompatActivity {
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);       //先声明再使用
         backup = (ImageView) findViewById(R.id.backup);
         noInfo = (TextView)findViewById(R.id.noInfo);
-        mlistview = (ListView)findViewById(R.id.booklist) ;
+        mlistview = (ListView)findViewById(R.id.booklist);
+        up = (ImageView)findViewById(R.id.up);
         sv = (SpringView) findViewById(R.id.sv);//sv
+        scrollView = (ScrollView)findViewById(R.id.scrollView) ;
         sv.setType(SpringView.Type.FOLLOW);
         sv.setHeader(new DefaultHeader(this));
         sv.setFooter(new DefaultFooter(this));
@@ -158,6 +164,27 @@ public class MyBook extends AppCompatActivity {
                 menuWindow = new SelectBookPopWindow(MyBook.this, itemsOnClick);
                 //显示窗口
                 menuWindow.showAtLocation(MyBook.this.findViewById(R.id.title), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            }
+        });
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                System.out.println(scrollView.getScrollY());
+                if (event.getAction() == MotionEvent.ACTION_UP && scrollView.getScrollY() > 0)
+                    up.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_UP);
+                        up.setVisibility(View.GONE);
+                    }
+                });
             }
         });
         sv.setListener(new SpringView.OnFreshListener() {
