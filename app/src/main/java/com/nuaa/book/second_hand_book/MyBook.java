@@ -52,8 +52,8 @@ public class MyBook extends AppCompatActivity {
                         mSchedule = new SimpleAdapter(MyBook.this,
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
-                                new String[]{"name", "url", "bookname", "oldprice", "author", "nowprice", "quality", "sex", "add_time"},
-                                new int[]{R.id.seller_name, R.id.book_pic, R.id.book_name, R.id.old_price, R.id.author, R.id.now_price, R.id.quality, R.id.sex, R.id.time});
+                                new String[]{"name", "url", "bookname", "oldprice", "author", "nowprice", "quality", "sex", "add_time","book_id"},
+                                new int[]{R.id.seller_name, R.id.book_pic, R.id.book_name, R.id.old_price, R.id.author, R.id.now_price, R.id.quality, R.id.sex, R.id.time,R.id.book_id});
                         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
                             @Override
                             public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -120,6 +120,15 @@ public class MyBook extends AppCompatActivity {
                     }
                     sv.onFinishFreshAndLoad();
                     break;
+                case 1:
+                    res = (int)msg.obj;
+                    if (res == 1){
+                        Toast.makeText(MyBook.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (res == 2) {
+                        Toast.makeText(MyBook.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
             }
         }
     };
@@ -128,7 +137,7 @@ public class MyBook extends AppCompatActivity {
     private List<HashMap<String, Object>> mListData = new ArrayList<HashMap<String, Object>>();
     private SimpleAdapter mSchedule;
     private ListView mlistview;
-    private TextView noInfo;
+    private TextView noInfo,book_id;
     private int page = 1;
     private Boolean is_done = false;
     private int type = -1;          //获取自己的上架书籍
@@ -161,6 +170,7 @@ public class MyBook extends AppCompatActivity {
         mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                book_id = (TextView)view.findViewById(R.id.book_id);
                 menuWindow = new SelectBookPopWindow(MyBook.this, itemsOnClick);
                 //显示窗口
                 menuWindow.showAtLocation(MyBook.this.findViewById(R.id.title), BOTTOM|CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
@@ -218,7 +228,7 @@ public class MyBook extends AppCompatActivity {
                     Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.btn_delete:
-                    Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
+                    deleteBook(book_id.getText().toString());
                     break;
                 default:
                     break;
@@ -250,6 +260,7 @@ public class MyBook extends AppCompatActivity {
                             map.put("sex",temp.getString("seller_sex"));
                             map.put("name",temp.getString("seller_name"));
                             map.put("add_time",temp.get("add_time"));
+                            map.put("book_id",temp.getString("id"));
                             mListData.add(map);
                         }
                         Message msg = new Message();
@@ -271,4 +282,26 @@ public class MyBook extends AppCompatActivity {
         }).start();
     }
 
+    public void deleteBook(final String bookid)
+    {
+        new Thread(new Runnable(){
+            @Override
+            public void run()
+            {
+                int res = NewService.deleteBook(preferences.getString("token",null),bookid);
+                if (res != 0) {
+                        Message msg = new Message();
+                        msg.what = 1;
+                        msg.obj = 1;
+                        handler.sendMessage(msg);
+                }
+                else {
+                    Message msg = new Message();
+                    msg.what = 1;
+                    msg.obj = 2;        //代表服务器失败
+                    handler.sendMessage(msg);
+                }
+            }
+        }).start();
+    }
 }
