@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,8 +48,8 @@ public class Home extends Fragment {
                         mSchedule = new SimpleAdapter(getActivity(),
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
-                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex","add_time"},
-                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex,R.id.time});
+                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex","add_time","book_id"},
+                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex,R.id.time,R.id.book_id});
                         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
                             @Override
                             public boolean setViewValue(View view, Object data,String textRepresentation) {
@@ -172,7 +173,15 @@ public class Home extends Fragment {
                 transaction.commit();
             }
         });
-
+        mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView)view.findViewById(R.id.book_id);
+                Intent intent = new Intent(getActivity(), Bookinfo.class);
+                intent.putExtra("bookinfo_id", tv.getText().toString());
+                startActivity(intent);
+            }
+        });
         more.setOnClickListener(new MyOnClickListener(more.getId()));
         search.setOnClickListener(new MyOnClickListener(search.getId()));
         allBook.setOnClickListener(new MyOnClickListener(allBook.getId()));
@@ -212,6 +221,7 @@ public class Home extends Fragment {
                             map.put("sex",temp.getString("seller_sex"));
                             map.put("name",temp.getString("seller_name"));
                             map.put("add_time",temp.get("add_time"));
+                            map.put("book_id",temp.getString("id"));
                             mListData.add(map);
                         }
                         Message msg = new Message();

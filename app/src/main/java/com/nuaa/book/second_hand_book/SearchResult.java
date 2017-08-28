@@ -1,5 +1,6 @@
 package com.nuaa.book.second_hand_book;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -49,8 +51,8 @@ public class SearchResult extends AppCompatActivity {
                         mSchedule = new SimpleAdapter(SearchResult.this,
                                 mListData,//数据来源
                                 R.layout.item_list,//ListItem的XML实现
-                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex","add_time"},
-                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex,R.id.time});
+                                new String[] {"name","url", "bookname","oldprice","author","nowprice","quality","sex","add_time","book_id"},
+                                new int[] {R.id.seller_name,R.id.book_pic,R.id.book_name,R.id.old_price,R.id.author,R.id.now_price,R.id.quality,R.id.sex,R.id.time,R.id.book_id});
                         mSchedule.setViewBinder(new SimpleAdapter.ViewBinder() {
                             @Override
                             public boolean setViewValue(View view, Object data,String textRepresentation) {
@@ -189,6 +191,16 @@ public class SearchResult extends AppCompatActivity {
                 return false;
             }
         });
+        mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView)view.findViewById(R.id.book_id);
+                Intent intent = new Intent(SearchResult.this, Bookinfo.class);
+                intent.putExtra("bookinfo_id", tv.getText().toString());
+                startActivity(intent);
+//                Toast.makeText(AllBook.this, tv.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
         up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,6 +259,7 @@ public class SearchResult extends AppCompatActivity {
                                 map.put("sex", temp.getString("seller_sex"));
                                 map.put("name", temp.getString("seller_name"));
                                 map.put("add_time", temp.get("add_time"));
+                                map.put("book_id",temp.getString("id"));
                                 mListData.add(map);
                             }
                             Message msg = new Message();

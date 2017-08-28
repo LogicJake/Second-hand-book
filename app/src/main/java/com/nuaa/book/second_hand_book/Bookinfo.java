@@ -1,5 +1,6 @@
 package com.nuaa.book.second_hand_book;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -109,7 +110,8 @@ public class Bookinfo extends AppCompatActivity {
 
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
-        book_id = preferences.getString("bookinfo_id",null);
+        Intent intent =getIntent();
+        book_id = intent.getStringExtra("bookinfo_id");
         token = preferences.getString("token",null);
 
         avator = (ImageView)findViewById(R.id.avator);

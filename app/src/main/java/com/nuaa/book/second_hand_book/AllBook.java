@@ -158,11 +158,9 @@ public class AllBook extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView)view.findViewById(R.id.book_id);
-                editor.putString("bookinfo_id",tv.getText().toString());
-                editor.commit();
                 Intent intent = new Intent(AllBook.this, Bookinfo.class);
+                intent.putExtra("bookinfo_id", tv.getText().toString());
                 startActivity(intent);
-                finish();
 //                Toast.makeText(AllBook.this, tv.getText(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -1,5 +1,6 @@
 package com.nuaa.book.second_hand_book;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -222,7 +223,9 @@ public class MyBook extends AppCompatActivity {
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.btn_watch:
-                    Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyBook.this, Bookinfo.class);
+                    intent.putExtra("bookinfo_id", book_id.getText().toString());
+                    startActivity(intent);
                     break;
                 case R.id.btn_modify:
                     Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
