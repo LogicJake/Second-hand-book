@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
@@ -228,7 +229,10 @@ public class MyBook extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.btn_modify:
-                    Toast.makeText(MyBook.this,"暂时还没实现",Toast.LENGTH_SHORT).show();
+                    Intent intent2 = new Intent(MyBook.this, AddBook.class);
+                    intent2.putExtra("bookinfo_id", book_id.getText().toString());
+                    intent2.putExtra("type",1);
+                    startActivity(intent2);
                     break;
                 case R.id.btn_delete:
                     deleteBook(book_id.getText().toString());

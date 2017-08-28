@@ -29,6 +29,7 @@ import java.util.List;
 import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ImageLoader;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -145,7 +146,32 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
             }
         }
     };
-    private static String url = pic_root +"1.png";
+    private Handler Bookhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            JSONObject res = (JSONObject) msg.obj;
+            if (res == null)
+                Toast.makeText(AddBook.this,R.string.server_error,Toast.LENGTH_SHORT);
+            else {
+                try {
+                    ISBN.setText(res.getString("ISBN"));
+                    imageLoader.displayImage(res.getString("pic_url"),cover,options);
+                    name.setText(res.getString("name"));
+                    author.setText(res.getString("author"));
+                    publisher.setText(res.getString("publisher"));
+                    old_price.setText(res.getString("old_price"));
+                    now_price.setText(res.getString("now_price"));
+                    num.setText(res.getString("sell_num"));
+                    classify.setSelection(res.getInt("classify")-1);
+                    quality.setSelection(res.getInt("quality")-1);
+                    remark.setText(res.getString("remark"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     private EditText ISBN;
     private EditText name;
@@ -213,6 +239,10 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
         preferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         editor = preferences.edit();
         ZXingLibrary.initDisplayOpinion(this);
+        Intent intent = getIntent();
+        int type = intent.getIntExtra("type",0);
+        if (type == 1)
+            Init(intent.getStringExtra("bookinfo_id"));
         backup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -485,12 +515,24 @@ public class AddBook extends AppCompatActivity implements EasyPermissions.Permis
                     .show();
         }
     }
-
-    public boolean isNumeric(String s) {
-        return java.util.regex.Pattern.matches("\\d+", s);
-    }
     public boolean isDecimal(String s) {
         System.out.println(java.util.regex.Pattern.matches("\\d+\\.*\\d+", s));
         return java.util.regex.Pattern.matches("\\d+\\.*\\d+", s);
+    }
+
+    public void Init(final String book_id){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject res = NewService.getbookinfo(preferences.getString("token",null),book_id);
+                    Message msg = new Message();
+                    msg.obj = res.getJSONObject("data");
+                    Bookhandler.sendMessage(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
