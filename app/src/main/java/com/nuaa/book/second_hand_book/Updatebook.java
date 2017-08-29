@@ -161,7 +161,7 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
                     publisher.setText(res.getString("publisher"));
                     old_price.setText(res.getString("old_price"));
                     now_price.setText(res.getString("now_price"));
-                    num.setText(res.getString("sell_num"));
+                    num.setText(res.getString("num"));
                     classify.setSelection(res.getInt("classify")-1);
                     quality.setSelection(res.getInt("quality")-1);
                     remark.setText(res.getString("remark"));
