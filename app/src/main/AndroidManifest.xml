@@ -37,8 +37,7 @@
         <activity
             android:name=".Setting"
             android:label="@string/title_activity_setting"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppThemeNoBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LaunchScreen"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">

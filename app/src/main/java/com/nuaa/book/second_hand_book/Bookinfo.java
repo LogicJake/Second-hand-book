@@ -39,7 +39,7 @@ public class Bookinfo extends AppCompatActivity {
                 imageLoader.displayImage(avator_root+res.getString("avator_url"),avator,options);
                 nick_name.setText(res.getString("nick_name"));
                 sell_num.setText(res.getString("sell_num"));
-                if(res.getString("sex").equals("0"))
+                if(res.getString("sex").equals("1"))
                 {
                     sex.setImageResource(R.drawable.male);
                 }
@@ -54,7 +54,24 @@ public class Bookinfo extends AppCompatActivity {
                 now_price.setText("￥ "+res.getString("now_price"));
                 String aupu = res.getString("author")+" | "+res.getString("publisher");
                 author_publisher.setText(aupu);
-                quality.setText(res.getString("quality"));
+                switch (res.getString("quality")){
+                    case "1":
+                        quality.setText("6成新");
+                        break;
+                    case "2":
+                        quality.setText("7成新");
+                        break;
+                    case "3":
+                        quality.setText("8成新");
+                        break;
+                    case "4":
+                        quality.setText("9成新");
+                        break;
+                    case "5":
+                        quality.setText("全新");
+                        break;
+                }
+
                 String raw_time = res.getString("add_time");
                 Calendar time = stampTocal(raw_time);
                 Calendar localtime = Calendar.getInstance();
@@ -72,8 +89,15 @@ public class Bookinfo extends AppCompatActivity {
                 } else
                     add_time.setText(Integer.toString(time.get(Calendar.YEAR)) + "-" + Integer.toString(time.get(Calendar.MONTH) + 1) + "-" + time.get(Calendar.DAY_OF_MONTH) + " " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE));
                 ISBN.setText(res.getString("ISBN"));
-                num.setText(res.getString("num"));
-                remark.setText(res.getString("remark"));
+                num.setText(res.getString("num")+"本");
+                if (res.getString("remark") == null || res.getString("remark").length() == 0)
+                    remark.setText("备注：无");
+                else
+                    remark.setText(res.getString("备注："+"remark"));
+                if (res.getString("user_sign") == null || res.getString("user_sign").length() == 0)
+                    sign.setText("这个人很懒，啥也没写");
+                else
+                    sign.setText(res.getString("user_sign"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -102,6 +126,7 @@ public class Bookinfo extends AppCompatActivity {
     private TextView num;
     private TextView remark;
     private ImageView backup;
+    private TextView sign;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,6 +154,7 @@ public class Bookinfo extends AppCompatActivity {
         num = (TextView)findViewById(R.id.num);
         remark = (TextView)findViewById(R.id.remark);
         backup = (ImageView)findViewById(R.id.backup);
+        sign = (TextView)findViewById(R.id.sign);
 
         System.out.println("bookinfo token +"+token);
 
@@ -153,8 +179,6 @@ public class Bookinfo extends AppCompatActivity {
             }
         });
         thread.start();
-
-        Toast.makeText(Bookinfo.this,book_id,Toast.LENGTH_SHORT).show();
     }
 
 }

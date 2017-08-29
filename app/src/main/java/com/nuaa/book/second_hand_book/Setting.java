@@ -14,6 +14,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -194,9 +195,8 @@ public class Setting extends AppCompatActivity {
     private int REQUEST_CODE_GALLERY = 200;
     private int REQUEST_CODE_CAMERA = 100;
     private FunctionConfig functionConfig;
-
-    private SweetAlertDialog pDialog;
     private SweetAlertDialog pDialog2;
+    private ImageView backup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +209,7 @@ public class Setting extends AppCompatActivity {
         qq = (TextView)findViewById(R.id.qq);
         sex = (TextView)findViewById(R.id.sex);
         sigh = (TextView)findViewById(R.id.sigh);
-
+        backup = (ImageView)findViewById(R.id.backup);
         nickname = (TableRow)findViewById(R.id.nickname);
         trtele = (TableRow)findViewById(R.id.trtele);
         trqq = (TableRow)findViewById(R.id.trqq);
@@ -220,6 +220,12 @@ public class Setting extends AppCompatActivity {
         editor = preferences.edit();
         InitGalleryFinal();                 //初始化图片选择器
         initInfo();
+        backup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

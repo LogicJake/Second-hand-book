@@ -26,7 +26,8 @@
             android:gravity="center"
             android:text="上架书籍"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginRight="40dp"/>
     </LinearLayout>
     <com.liaoinstan.springview.widget.SpringView
         android:id="@+id/sv"
