@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
@@ -226,6 +225,7 @@ public class MyBook extends AppCompatActivity {
                 case R.id.btn_watch:
                     Intent intent = new Intent(MyBook.this, Bookinfo.class);
                     intent.putExtra("bookinfo_id", book_id.getText().toString());
+                    intent.putExtra("my","1");
                     startActivity(intent);
                     break;
                 case R.id.btn_modify:

@@ -160,6 +160,7 @@ public class AllBook extends AppCompatActivity {
                 TextView tv = (TextView)view.findViewById(R.id.book_id);
                 Intent intent = new Intent(AllBook.this, Bookinfo.class);
                 intent.putExtra("bookinfo_id", tv.getText().toString());
+                intent.putExtra("my","0");
                 startActivity(intent);
 //                Toast.makeText(AllBook.this, tv.getText(), Toast.LENGTH_SHORT).show();
             }
