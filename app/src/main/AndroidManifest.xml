@@ -56,9 +56,10 @@
             android:name=".AddBook"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AllBook" />
-        <activity android:name=".MyBook"></activity>
-        <activity android:name=".Bookinfo"></activity>
-        <activity android:name=".Updatebook"></activity>
+        <activity android:name=".MyBook" />
+        <activity android:name=".Bookinfo" />
+        <activity android:name=".Updatebook" />
+        <activity android:name=".MyCollection"></activity>
     </application>
 
 </manifest>

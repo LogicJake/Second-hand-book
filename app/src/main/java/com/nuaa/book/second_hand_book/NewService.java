@@ -658,6 +658,7 @@ public class NewService {
         }
         return res;
     }
+
     public static JSONObject updatebook(String token,String ISBN,String name,String author,String publisher,String old_price,String now_price,String num,String classify,String quality,String remark,String image_url,String book_id) {
         JSONObject res = null;
         System.out.println("image_url+=== "+image_url);
@@ -688,6 +689,88 @@ public class NewService {
                 is.close();
                 baos.close();
                 System.out.println(baos.toString());
+                res = new JSONObject(baos.toString()).getJSONObject("data");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static int collection(String token,String bookid){
+        int res = 0;        //0代表失败
+        try {
+            String path = rooturl+"index.php?_action=postCollection&token="+token;
+            URL url = new URL(path);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            // 设置请求的方式
+            urlConnection.setRequestMethod("POST");
+            // 设置请求的超时时间
+            urlConnection.setReadTimeout(5000);
+            urlConnection.setConnectTimeout(5000);
+            String data = "&book_id="+bookid;
+            urlConnection.setRequestProperty("Content-Length", String.valueOf(data.getBytes().length));
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            urlConnection.setDoOutput(true); // 发送POST请求必须设置允许输出
+            urlConnection.setDoInput(true); // 发送POST请求必须设置允许输入
+
+            OutputStream os = urlConnection.getOutputStream();
+            os.write(data.getBytes());
+            os.flush();
+            if (urlConnection.getResponseCode() == 200) {
+                // 获取响应的输入流对象
+                InputStream is = urlConnection.getInputStream();
+                // 创建字节输出流对象
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // 定义读取的长度
+                int len = 0;
+                // 定义缓冲区
+                byte buffer[] = new byte[1024];
+                // 按照缓冲区的大小，循环读取
+                while ((len = is.read(buffer)) != -1) {
+                    // 根据读取的长度写入到os对象中
+                    baos.write(buffer, 0, len);
+                }
+                is.close();
+                baos.close();
+                System.out.println(baos.toString());
+                res = new JSONObject(baos.toString()).getInt("data");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static JSONObject getMyCollection(String token,int page){
+        JSONObject res = null;
+        try {
+            String path = rooturl+"index.php?_action=getMyCollection&token="+token+"&page="+page;;
+            URL url = new URL(path);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            // 设置请求的方式
+            urlConnection.setRequestMethod("GET");
+            // 设置请求的超时时间
+            urlConnection.setReadTimeout(5000);
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.connect();
+            if (urlConnection.getResponseCode() == 200) {
+                // 获取响应的输入流对象
+                InputStream is = urlConnection.getInputStream();
+                // 创建字节输出流对象
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // 定义读取的长度
+                int len = 0;
+                // 定义缓冲区
+                byte buffer[] = new byte[1024];
+                // 按照缓冲区的大小，循环读取
+                while ((len = is.read(buffer)) != -1) {
+                    // 根据读取的长度写入到os对象中
+                    baos.write(buffer, 0, len);
+                }
+                is.close();
+                baos.close();
+                System.out.println(baos);
                 res = new JSONObject(baos.toString()).getJSONObject("data");
             }
         } catch (Exception e) {
