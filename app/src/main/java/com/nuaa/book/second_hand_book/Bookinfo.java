@@ -100,7 +100,7 @@ public class Bookinfo extends AppCompatActivity {
     private TextView quality;
     private TextView add_time;
     private TextView ISBN;
-    private TextView num;
+    private TextView num; 
     private TextView remark;
     private ImageView backup;
     private String my;
