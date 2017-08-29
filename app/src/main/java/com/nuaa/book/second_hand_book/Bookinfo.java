@@ -100,7 +100,7 @@ public class Bookinfo extends AppCompatActivity {
     private TextView quality;
     private TextView add_time;
     private TextView ISBN;
-    private TextView num; 
+    private TextView num;
     private TextView remark;
     private ImageView backup;
     private String my;
@@ -144,7 +144,7 @@ public class Bookinfo extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Bookinfo.this, Updatebook.class);
-                    intent.putExtra("book_id",book_id);
+                    intent.putExtra("bookinfo_id",book_id);
                     startActivity(intent);
                 }
             });

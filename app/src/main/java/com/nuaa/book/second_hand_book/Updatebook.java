@@ -155,6 +155,7 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
                 try {
                     ISBN.setText(res.getString("ISBN"));
                     imageLoader.displayImage(res.getString("pic_url"),cover,options);
+                    image_url = res.getString("pic_url");
                     name.setText(res.getString("name"));
                     author.setText(res.getString("author"));
                     publisher.setText(res.getString("publisher"));
@@ -251,6 +252,7 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
                 finish();
             }
         });
+        Init(book_id);
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -523,6 +525,7 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
     }
 
     public void Init(final String book_id){
+        System.out.print("update book_id"+book_id);
         new Thread(new Runnable() {
             @Override
             public void run() {
