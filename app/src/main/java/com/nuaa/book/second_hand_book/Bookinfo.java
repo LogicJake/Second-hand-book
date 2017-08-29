@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class Bookinfo extends AppCompatActivity {
                 imageLoader.displayImage(avator_root+res.getString("avator_url"),avator,options);
                 nick_name.setText(res.getString("nick_name"));
                 sell_num.setText(res.getString("sell_num"));
-                if(res.getString("sex").equals("1"))
+                if(res.getString("sex").equals("0"))
                 {
                     sex.setImageResource(R.drawable.male);
                 }
@@ -127,6 +128,8 @@ public class Bookinfo extends AppCompatActivity {
     private TextView remark;
     private ImageView backup;
     private TextView sign;
+    private String my;
+    private Button modify;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,6 +140,7 @@ public class Bookinfo extends AppCompatActivity {
         editor = preferences.edit();
         Intent intent =getIntent();
         book_id = intent.getStringExtra("bookinfo_id");
+        my = intent.getStringExtra("my");
         token = preferences.getString("token",null);
 
         avator = (ImageView)findViewById(R.id.avator);
@@ -155,8 +159,23 @@ public class Bookinfo extends AppCompatActivity {
         remark = (TextView)findViewById(R.id.remark);
         backup = (ImageView)findViewById(R.id.backup);
         sign = (TextView)findViewById(R.id.sign);
+        modify = (Button)findViewById(R.id.modify);
 
         System.out.println("bookinfo token +"+token);
+
+        if(my.equals("1"))
+        {
+            modify.setVisibility(View.VISIBLE);
+            modify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Bookinfo.this, Updatebook.class);
+                    intent.putExtra("bookinfo_id",book_id);
+                    startActivity(intent);
+                }
+            });
+        }
+
 
         backup.setOnClickListener(new View.OnClickListener() {
             @Override

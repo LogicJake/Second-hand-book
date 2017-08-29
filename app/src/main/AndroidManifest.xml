@@ -58,6 +58,7 @@
         <activity android:name=".AllBook" />
         <activity android:name=".MyBook"></activity>
         <activity android:name=".Bookinfo"></activity>
+        <activity android:name=".Updatebook"></activity>
     </application>
 
 </manifest>
