@@ -64,11 +64,11 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
                 if (res == 2)
                     Toast.makeText(Updatebook.this, "请不要重复提交", Toast.LENGTH_SHORT).show();
                 else if (res == 0)
-                    Toast.makeText(Updatebook.this, "上架失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Updatebook.this, "更新失败", Toast.LENGTH_SHORT).show();
                 else if (res == 1)
                 {
-                    Toast.makeText(Updatebook.this, "上架成功", Toast.LENGTH_SHORT).show();
-                    reset();
+                    Toast.makeText(Updatebook.this, "更新成功", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         }
@@ -216,7 +216,7 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_book);
+        setContentView(R.layout.activity_update_book);
 
         InitGalleryFinal();                 //初始化图片选择器
 
@@ -333,7 +333,7 @@ public class Updatebook extends AppCompatActivity implements EasyPermissions.Per
                             Message msg = new Message();
                             msg.what = 0;
                             msg.obj = result;
-                            System.out.println("上架。。。。"+result);
+                            System.out.println("更新。。。。"+result);
                             handler.sendMessage(msg);
                         }
                     });
