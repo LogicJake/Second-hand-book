@@ -23,13 +23,13 @@ public class NewService {
 
     //test locally:http://192.168.253.12//book-api/
     //test nrtwork：http://test.logicjake.xyz/book-api/
-    public static String rooturl = "http://test.logicjake.xyz/book-api/";
+    public static String rooturl = "http://api.logicjake.xyz/book-api/";
 
-    public static String pic_root = "http://test.logicjake.xyz/book-file/book/";      //存放书籍封面地址
+    public static String pic_root = "http://api.logicjake.xyz/book-file/book/";      //存放书籍封面地址
 
     public static String ISBNurl = "https://api.douban.com/v2/book/isbn/:";
-    public static String avator_root = "http://test.logicjake.xyz/book-file/avator/";
-    public static String cover_root = "http://test.logicjake.xyz/book-file/cover/";
+    public static String avator_root = "http://api.logicjake.xyz/book-file/avator/";
+    public static String cover_root = "http://api.logicjake.xyz/book-file/cover/";
     public static String getMD5(String message) {
         String md5 = "";
         try {
